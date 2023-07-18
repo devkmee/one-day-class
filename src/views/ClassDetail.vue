@@ -1,14 +1,13 @@
 <template>
-  <div><h1>클래스 상세보기</h1></div>
-  <DetailTable />
+  <Detailview />
 </template>
 
 <script>
-import DetailTable from '@/components/DetailTable.vue';
+import Detailview from '@/components/Detailview.vue';
 
 export default {
   components: {
-    DetailTable,
+    Detailview,
   },
   setup() {
     return {};

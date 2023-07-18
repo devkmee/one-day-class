@@ -1,26 +1,57 @@
 <template>
-  <div class="cardDivBox">
-    <ul>
-      <!--카드-->
-      <li v-for="item in classArr" :key="item.id">
-        <RouterLink :to="`class/detail/${item.id}`">
-          <div class="card border-primary mb-3">
-            <img
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">{{ item.className }}</h5>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-            </div>
+  <section class="houses" id="houses">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-header__content">
+          <h4 class="sub-title">CLASS</h4>
+          <h2 class="title">One Day Class</h2>
+        </div>
+      </div>
+      <!--카드리스트 시작-->
+      <div class="section-content">
+        <div class="row">
+          <!--item start-->
+          <div
+            class="col-md-4 col-sm-6"
+            v-for="item in classArr"
+            :key="item.id"
+          >
+            <RouterLink :to="`class/detail/${item.id}`">
+              <div class="house-card">
+                <div class="house__thumb">
+                  <img
+                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="house__meta">
+                    <a href="#">{{ item.cateCd }}</a>
+                  </div>
+                </div>
+
+                <div class="house__content">
+                  <div class="house__content__main">
+                    <h5 class="title">{{ item.clsName }}</h5>
+                    <i class="bi bi-currency-dollar"></i>
+                    <span> {{ item.price }}</span>
+                  </div>
+                </div>
+                <div class="house__content__bottom">
+                  <div class="info-wrap">
+                    <div class="info info-right">
+                      <i class="bi bi-geo-alt-fill"></i>
+                      <span> {{ item.area }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </RouterLink>
           </div>
-        </RouterLink>
-      </li>
-    </ul>
-  </div>
+          <!--item end-->
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -74,17 +105,4 @@ export default {
 };
 </script>
 
-<style scoped>
-ul {
-  display: flex;
-  flex-wrap: wrap;
-}
-ul li {
-  flex: 33% 0 0;
-  width: calc(100% / 3);
-  padding: 20px;
-}
-.card {
-  padding: 10px;
-}
-</style>
+<style></style>
