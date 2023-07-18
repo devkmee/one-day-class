@@ -2,8 +2,8 @@
   <header>
     <div>Common Header</div>
     <div class="links">
-      <router-link to="/itemCreate">등록</router-link>
-      <router-link to="/itemEdit">수정</router-link>
+      <router-link to="/ClassEdit">등록</router-link>
+      <router-link to="/ClassEdit">등록</router-link>
       <router-link to="/classList">목록</router-link>
     </div>
   </header>
