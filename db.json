@@ -1,0 +1,156 @@
+{
+  "categoryCode": [
+    {
+      "cateCd": 1,
+      "cateName": "요리&베이킹"
+    },
+    {
+      "cateCd": 2,
+      "cateName": "미술"
+    },
+    {
+      "cateCd": 3,
+      "cateName": "수공예"
+    },
+    {
+      "cateCd": 4,
+      "cateName": "가드닝&플라워"
+    },
+    {
+      "cateCd": 5,
+      "cateName": "액티비티"
+    },
+    {
+      "cateCd": 6,
+      "cateName": "음악"
+    }
+  ],
+  "class": [
+    {
+      "id": 1,
+      "img": 1,
+      "className": "양초 만들기",
+      "userName": "김양초",
+      "contents": "양초 만들기 재밌어요",
+      "area1": "서울특별시",
+      "cateCd": "3",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "50000",
+      "status": 1
+    },
+    {
+      "id": 2,
+      "img": 2,
+      "className": "비누 만들기",
+      "userName": "김비누",
+      "contents": "비누 만들기 재밌어요",
+      "area1": "서울특별시",
+      "cateCd": "3",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "20000",
+      "status": 1
+    },
+    {
+      "id": 3,
+      "img": 3,
+      "className": "요가클래스",
+      "userName": "김요가",
+      "contents": "요가 재밌어요",
+      "area1": "대전광역시",
+      "cateCd": "5",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "50000",
+      "status": 1
+    },
+    {
+      "id": 4,
+      "img": 4,
+      "className": "버터바 만들기",
+      "userName": "김버터",
+      "contents": "버터바 만들기 재밌어요",
+      "area1": "세종특별시",
+      "cateCd": "1",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "36000",
+      "status": 1
+    },
+    {
+      "id": 5,
+      "img": 5,
+      "className": "나이프 페인팅",
+      "userName": "김그림",
+      "contents": "나이프페인팅 재밌어요",
+      "area1": "세종특별시",
+      "cateCd": "2",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "32000",
+      "status": 1
+    },
+    {
+      "id": 6,
+      "img": 6,
+      "className": "유화 그리기",
+      "userName": "김유화",
+      "contents": "유화 그리기 재밌어요",
+      "area1": "대전 광역시",
+      "cateCd": "2",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "60000",
+      "status": 1
+    },
+    {
+      "id": 7,
+      "img": 7,
+      "className": "꽃바구니 만들기",
+      "userName": "김꽃",
+      "contents": "꽃바구니 만들기 재밌어요",
+      "area1": "대전 광역시",
+      "cateCd": "4",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "55000",
+      "status": 1
+    },
+    {
+      "id": 8,
+      "img": 8,
+      "className": "카네이션 상자 만들기",
+      "userName": "김효도",
+      "contents": "카네이션 상자 만들기 재밌어요",
+      "area1": "서울 특별시",
+      "cateCd": "4",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "33000",
+      "status": 1
+    },
+    {
+      "id": 9,
+      "img": 9,
+      "className": "반려식물 만들기",
+      "userName": "김식물",
+      "contents": "반려식물 만들기 재밌어요",
+      "area1": "서울 특별시",
+      "cateCd": "4",
+      "studentMax": 5,
+      "timeStart": "1100",
+      "timeEnd": "1800",
+      "price": "30000",
+      "status": 1
+    }
+  ]
+}
