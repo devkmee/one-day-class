@@ -16,7 +16,7 @@
             v-for="item in classArr"
             :key="item.id"
           >
-            <RouterLink :to="`class/detail/${item.id}`">
+            <RouterLink :to="`/class/${item.id}`">
               <div class="house-card">
                 <div class="house__thumb">
                   <img

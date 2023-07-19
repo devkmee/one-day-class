@@ -2,9 +2,9 @@
   <header>
     <div>Common Header</div>
     <div class="links">
+      <router-link to="/ClassEdit">미정</router-link>
+      <router-link to="/classList">HOME</router-link>
       <router-link to="/ClassEdit">등록</router-link>
-      <router-link to="/ClassEdit">등록</router-link>
-      <router-link to="/classList">목록</router-link>
     </div>
   </header>
 </template>
