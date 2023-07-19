@@ -8,11 +8,11 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="p-5 mb-2 bg-primary text-white rounded">
       <form>
         <ul class="icon-list">
           <li>
-            <span></span>
+            <label>클래스 번호</label>
             <span>값</span>
           </li>
           <li>

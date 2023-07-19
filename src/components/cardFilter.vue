@@ -1,14 +1,5 @@
 <template>
   <div class="filterDivBox">
-    <div>
-      <v-text-field
-        label="클래스 검색"
-        v-model="cName"
-        @keyup.enter="searchCName"
-        prepend-inner-icon="mdi-map-marker"
-        variant="solo"
-      ></v-text-field>
-    </div>
     <div></div>
   </div>
 </template>

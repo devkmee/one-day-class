@@ -1,10 +1,6 @@
 <template>
-  <div><h1>Class List</h1></div>
-  <cardFilter @cName="aa(cName)" />
+  <!-- <cardFilter @cName="aa(cName)" /> -->
   <cardList />
-  <div>
-    <v-col cols="12" sm="6" md="4"> </v-col>
-  </div>
 </template>
 
 <script>
@@ -15,7 +11,7 @@ import { useRouter } from 'vue-router';
 export default {
   components: {
     cardList,
-    cardFilter,
+    // cardFilter,
   },
   setup() {
     const router = useRouter();
@@ -26,13 +22,13 @@ export default {
       });
     };
 
-    const aa = (cName) => {
-      console.log(cName);
-    };
+    // const aa = (cName) => {
+    //   console.log(cName);
+    // };
 
     return {
       goclassForm,
-      aa,
+      //aa,
     };
   },
 };
