@@ -1,5 +1,4 @@
 <template>
-  <div><h1>클래스등록/수정</h1></div>
   <classForm />
 </template>
 
