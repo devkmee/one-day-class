@@ -142,6 +142,28 @@
       "time": 3,
       "price": "36000",
       "status": 1
+    },
+    {
+      "clsName": "1",
+      "cateCd": "Open this select menu",
+      "status": "1",
+      "area": "Open this select menu",
+      "price": "3",
+      "studentMax": "4",
+      "time": "5",
+      "expln": "6",
+      "id": 10
+    },
+    {
+      "clsName": "등록 테스트",
+      "cateCd": "Open this select menu",
+      "status": "1",
+      "area": "Open this select menu",
+      "price": "1",
+      "studentMax": "2",
+      "time": "3",
+      "expln": "4",
+      "id": 11
     }
   ]
 }

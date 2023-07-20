@@ -1,5 +1,6 @@
 <template>
   <div>
+    ffdsf
     <!-- contact-us section start -->
     <section class="contact-us" id="contact-us">
       <div class="container">
@@ -22,16 +23,25 @@
 
           <div class="col-md-6">
             <div class="section-header__content v2">
-              <form>
+              <form @submit.prevent="saveClass">
                 <div class="mb-5">
-                  <label class="form-label">클래스 이름</label>
-                  <input type="password" name="clsName" class="form-control" />
+                  <div class="mb-3">
+                    <label for="clsName" class="form-label">클래스 이름</label>
+                    <input
+                      v-model="cls.clsName"
+                      type="text"
+                      class="form-control"
+                      id="clsName"
+                    />
+                  </div>
                 </div>
                 <div class="flex-box">
                   <div>
-                    <label class="form-label">카테고리</label>
+                    <label class="form-label" for="cateCd">카테고리</label>
                     <select
+                      v-model="cls.cateCd"
                       class="form-select"
+                      id="cateCd"
                       name="cateCd"
                       aria-label="Default select example"
                     >
@@ -39,42 +49,81 @@
                     </select>
                   </div>
                   <div>
-                    <label class="form-label" name="area">모집상태</label>
+                    <label class="form-label" for="status">모집상태</label>
                     <select
+                      v-model="cls.status"
                       class="form-select"
+                      id="status"
                       name="status"
-                      aria-label="Default select example"
                     >
-                      <option selected>Open this select menu</option>
+                      <option value="1" selected>모집중</option>
+                      <option value="2">모집마감</option>
+                      <option value="0">비공개</option>
                     </select>
                   </div>
                 </div>
                 <div class="flex-box">
                   <div>
-                    <label class="form-label">지역</label>
+                    <label class="form-label" for="area">지역</label>
                     <select
+                      v-model="cls.area"
                       class="form-select"
+                      id="area"
                       name="area"
-                      aria-label="Default select example"
                     >
                       <option selected>Open this select menu</option>
                     </select>
                   </div>
                   <div>
-                    <label class="form-label">가격</label>
-                    <input type="text" name="price" class="form-control" />
+                    <label class="form-label" for="price">가격</label>
+                    <input
+                      v-model="cls.price"
+                      type="text"
+                      id="price"
+                      name="price"
+                      class="form-control"
+                    />
                   </div>
                 </div>
                 <div class="flex-box">
                   <div>
-                    <label class="form-label">최대 인원</label>
-                    <input type="text" name="studentMax" class="form-control" />
+                    <label class="form-label" for="studentMax">최대 인원</label>
+                    <input
+                      v-model="cls.studentMax"
+                      type="text"
+                      id="studentMax"
+                      name="studentMax"
+                      class="form-control"
+                    />
                   </div>
                   <div>
-                    <label class="form-label">수강시간 </label>
-                    <input type="text" name="time" class="form-control" />
+                    <label class="form-label" for="time">소요시간 </label>
+                    <input
+                      v-model="cls.time"
+                      class="form-control"
+                      id="time"
+                      name="time"
+                      type="text"
+                      de
+                    />
                   </div>
                 </div>
+                <div class="mb-3">
+                  <label class="form-label" for="expln">클래스 소개</label>
+                  <textarea
+                    v-model="cls.expln"
+                    class="form-control"
+                    id="expln"
+                    name="expln"
+                    rows="3"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  저장
+                </button>
+                <button type="button" class="btn btn-secondary btn-lg">
+                  취소
+                </button>
               </form>
             </div>
           </div>
@@ -85,7 +134,62 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import { ref } from 'vue';
+import axios from 'axios';
+
+export default {
+  setup() {
+    const cls = ref({
+      clsImg: 0,
+      clsName: '',
+      teacher: '김강사',
+      cateCd: '',
+      status: '',
+      area: '',
+      price: '',
+      studentMax: '',
+      time: '',
+      expln: '',
+    });
+
+    // const validationCheck = () => {
+    //   const valiChk = false;
+
+    //   console.log('cls : ', cls);
+    //   return valiChk;
+    // };
+
+    const saveClass = async () => {
+      //validationCheck();
+      try {
+        let res;
+        const data = {
+          clsImg: cls.value.clsImg,
+          clsName: cls.value.clsName,
+          teacher: cls.value.teacher,
+          cateCd: cls.value.cateCd,
+          status: cls.value.status,
+          area: cls.value.area,
+          price: cls.value.price,
+          studentMax: cls.value.studentMax,
+          time: cls.value.time,
+          expln: cls.value.expln,
+        };
+        res = await axios.post('http://localhost:5000/class', data);
+      } catch (err) {
+        console.log('err : ', err);
+      }
+    };
+    return {
+      cls,
+
+      //validationCheck,
+      saveClass,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .flex-box {
@@ -93,6 +197,6 @@
 }
 .flex-box > div {
   flex: 1;
-  margin: 0px 20px 40px 0px;
+  margin: 0px 20px 20px 0px;
 }
 </style>
