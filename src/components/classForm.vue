@@ -43,6 +43,8 @@
                       id="cateCd"
                       name="cateCd"
                     >
+                      <!-- <v-if ="!cateList.length"><option>err</option></v-if>
+                      <v-else> -->
                       <option
                         v-for="item in cateList"
                         :key="item.cateCd"
@@ -50,6 +52,7 @@
                       >
                         {{ item.cateName }}
                       </option>
+                      <!-- </v-else> -->
                     </select>
                   </div>
                   <div>
