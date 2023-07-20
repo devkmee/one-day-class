@@ -1,6 +1,5 @@
 <template>
   <div>
-    ffdsf
     <!-- contact-us section start -->
     <section class="contact-us" id="contact-us">
       <div class="container">
@@ -43,15 +42,20 @@
                       class="form-select"
                       id="cateCd"
                       name="cateCd"
-                      aria-label="Default select example"
                     >
-                      <option selected>Open this select menu</option>
+                      <option
+                        v-for="item in cateList"
+                        :key="item.cateCd"
+                        :value="item.cateCd"
+                      >
+                        {{ item.cateName }}
+                      </option>
                     </select>
                   </div>
                   <div>
                     <label class="form-label" for="status">모집상태</label>
                     <select
-                      v-model="cls.status"
+                      v-bind="cls.status"
                       class="form-select"
                       id="status"
                       name="status"
@@ -135,16 +139,18 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import axios from 'axios';
 
 export default {
   setup() {
+    const cateList = ref([]);
+
     const cls = ref({
       clsImg: 0,
       clsName: '',
       teacher: '김강사',
-      cateCd: '',
+      cateCd: 1,
       status: '',
       area: '',
       price: '',
@@ -153,6 +159,21 @@ export default {
       expln: '',
     });
 
+    onBeforeMount(() => {
+      setCateList();
+    });
+
+    const setCateList = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
+        );
+        cateList.value = res.data;
+      } catch (err) {
+        console.log('setCateList err : ', err);
+      }
+    };
+
     // const validationCheck = () => {
     //   const valiChk = false;
 
@@ -160,6 +181,12 @@ export default {
     //   return valiChk;
     // };
 
+    //초기화
+    // const resetClass = () {
+
+    // };
+
+    //클래스 저장
     const saveClass = async () => {
       //validationCheck();
       try {
@@ -177,15 +204,18 @@ export default {
           expln: cls.value.expln,
         };
         res = await axios.post('http://localhost:5000/class', data);
+        console.log(res);
       } catch (err) {
         console.log('err : ', err);
       }
     };
     return {
+      cateList,
       cls,
 
       //validationCheck,
       saveClass,
+      setCateList,
     };
   },
 };
