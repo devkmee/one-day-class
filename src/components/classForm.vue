@@ -43,16 +43,17 @@
                       id="cateCd"
                       name="cateCd"
                     >
-                      <!-- <v-if ="!cateList.length"><option>err</option></v-if>
-                      <v-else> -->
+                      <option v-if="!cateList.length">
+                        카테고리를 불러오지 못했습니다
+                      </option>
                       <option
+                        v-else
                         v-for="item in cateList"
                         :key="item.cateCd"
                         :value="item.cateCd"
                       >
                         {{ item.cateName }}
                       </option>
-                      <!-- </v-else> -->
                     </select>
                   </div>
                   <div>
@@ -71,14 +72,38 @@
                 </div>
                 <div class="flex-box">
                   <div>
-                    <label class="form-label" for="area">지역</label>
+                    <label class="form-label" for="sidoCd">시도</label>
                     <select
-                      v-model="cls.area"
+                      v-model="cls.sidoCd"
+                      @change="setSigList(cls.sidoCd)"
                       class="form-select"
-                      id="area"
-                      name="area"
+                      id="sidoCd"
+                      name="sidoCd"
                     >
-                      <option selected>Open this select menu</option>
+                      <option v-if="!sidoList.length">
+                        시도를 불러오지 못했습니다
+                      </option>
+                      <option
+                        v-else
+                        v-for="item in sidoList"
+                        :key="item.CTPRVN_CD"
+                        :value="item.CTPRVN_CD"
+                      >
+                        {{ item.CTP_KOR_NM }}
+                      </option>
+                    </select>
+                    <select>
+                      <option v-if="!sigList.length">
+                        시도를 선택해주세요
+                      </option>
+                      <option
+                        v-else
+                        v-for="item in sigList"
+                        :key="item.SIG_CD"
+                        :value="item.SIG_CD"
+                      >
+                        {{ item.SIG_KOR_NM }}
+                      </option>
                     </select>
                   </div>
                   <div>
@@ -142,30 +167,36 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 export default {
   setup() {
     const cateList = ref([]);
+    const sidoList = ref([]);
+    const sigList = ref([]);
 
+    //클래스
     const cls = ref({
       clsImg: 0,
       clsName: '',
       teacher: '김강사',
       cateCd: 1,
       status: '',
-      area: '',
+      sidoCd: '11',
+      sigCd: '',
       price: '',
       studentMax: '',
       time: '',
       expln: '',
     });
 
-    onBeforeMount(() => {
+    onMounted(() => {
       setCateList();
+      setSidoList();
     });
 
+    //카테고리 목록세팅
     const setCateList = async () => {
       try {
         const res = await axios.get(
@@ -174,6 +205,42 @@ export default {
         cateList.value = res.data;
       } catch (err) {
         console.log('setCateList err : ', err);
+      }
+    };
+
+    //시도 목록세팅
+    const setSidoList = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/sidoCd?_sort=CTP_KOR_NM&_order=asc`,
+        );
+        sidoList.value = res.data;
+      } catch (err) {
+        console.log('setSidoList err : ', err);
+      }
+    };
+
+    //시군구 목록세팅
+    const setSigList = async (sidoCd) => {
+      const resList = [];
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
+        );
+
+        //시도에 해당하는 시군구 추출 --> 여기부터시작!!
+        resList.value = res.data;
+        console.log(res.data);
+        console.log(res.data.length);
+        for (let i = 0; i < res.data.length; i++) {
+          let item = resList[i];
+          console.log(i + ' : ' + item);
+        }
+
+        // console.log(sidoCd);
+        // console.log(res.data);
+      } catch (err) {
+        console.log('setSigList err : ', err);
       }
     };
 
@@ -214,11 +281,15 @@ export default {
     };
     return {
       cateList,
+      sidoList,
+      sigList,
       cls,
 
       //validationCheck,
       saveClass,
       setCateList,
+      setSidoList,
+      setSigList,
     };
   },
 };
