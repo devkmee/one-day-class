@@ -9,157 +9,187 @@
             <h2 class="title">클래스 등록하기</h2>
           </div>
         </div>
-        <div class="row justify-content-between align-items-center">
-          <div class="col-md-5">
-            <div class="section-banner">
-              <img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                class="card-img-top"
-                alt="..."
-              />
-            </div>
+
+        <!-- <div class="row justify-content-between align-items-center"> -->
+        <div class="flex-wrapper">
+          <div class="flex-box-2 section-banner">
+            <img
+              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              class="card-img-top"
+              alt="..."
+            />
           </div>
 
-          <div class="col-md-6">
-            <div class="section-header__content v2">
-              <form @submit.prevent="saveClass">
-                <div class="mb-5">
-                  <div class="mb-3">
-                    <label for="clsName" class="form-label">클래스 이름</label>
-                    <input
-                      v-model="cls.clsName"
-                      type="text"
-                      class="form-control"
-                      id="clsName"
-                    />
-                  </div>
-                </div>
-                <div class="flex-box">
-                  <div>
-                    <label class="form-label" for="cateCd">카테고리</label>
-                    <select
-                      v-model="cls.cateCd"
-                      class="form-select"
-                      id="cateCd"
-                      name="cateCd"
-                    >
-                      <option v-if="!cateList.length">
-                        카테고리를 불러오지 못했습니다
-                      </option>
-                      <option
-                        v-else
-                        v-for="item in cateList"
-                        :key="item.cateCd"
-                        :value="item.cateCd"
-                      >
-                        {{ item.cateName }}
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="form-label" for="status">모집상태</label>
-                    <select
-                      v-bind="cls.status"
-                      class="form-select"
-                      id="status"
-                      name="status"
-                    >
-                      <option value="1" selected>모집중</option>
-                      <option value="2">모집마감</option>
-                      <option value="0">비공개</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="flex-box">
-                  <div>
-                    <label class="form-label" for="sidoCd">시도</label>
-                    <select
-                      v-model="cls.sidoCd"
-                      @change="setSigList(cls.sidoCd)"
-                      class="form-select"
-                      id="sidoCd"
-                      name="sidoCd"
-                    >
-                      <option v-if="!sidoList.length">
-                        시도를 불러오지 못했습니다
-                      </option>
-                      <option
-                        v-else
-                        v-for="item in sidoList"
-                        :key="item.CTPRVN_CD"
-                        :value="item.CTPRVN_CD"
-                      >
-                        {{ item.CTP_KOR_NM }}
-                      </option>
-                    </select>
-                    <select>
-                      <option v-if="!sigList.length">
-                        시도를 선택해주세요
-                      </option>
-                      <option
-                        v-else
-                        v-for="item in sigList"
-                        :key="item.SIG_CD"
-                        :value="item.SIG_CD"
-                      >
-                        {{ item.SIG_KOR_NM }}
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="form-label" for="price">가격</label>
-                    <input
-                      v-model="cls.price"
-                      type="text"
-                      id="price"
-                      name="price"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-                <div class="flex-box">
-                  <div>
-                    <label class="form-label" for="studentMax">최대 인원</label>
-                    <input
-                      v-model="cls.studentMax"
-                      type="text"
-                      id="studentMax"
-                      name="studentMax"
-                      class="form-control"
-                    />
-                  </div>
-                  <div>
-                    <label class="form-label" for="time">소요시간 </label>
-                    <input
-                      v-model="cls.time"
-                      class="form-control"
-                      id="time"
-                      name="time"
-                      type="text"
-                      de
-                    />
-                  </div>
-                </div>
+          <!-- <div class="flex-wrapper"> -->
+          <div class="flex-box-2">
+            <form @submit.prevent="saveClass">
+              <div class="mb-5">
                 <div class="mb-3">
-                  <label class="form-label" for="expln">클래스 소개</label>
-                  <textarea
-                    v-model="cls.expln"
+                  <label for="clsName" class="form-label">클래스 이름</label>
+                  <input
+                    v-model="cls.clsName"
+                    type="text"
                     class="form-control"
-                    id="expln"
-                    name="expln"
-                    rows="3"
-                  ></textarea>
+                    id="clsName"
+                  />
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg">
-                  저장
-                </button>
-                <button type="button" class="btn btn-secondary btn-lg">
-                  취소
-                </button>
-              </form>
-            </div>
+              </div>
+
+              <div class="flex-wrapper">
+                <div class="flex-box-3">
+                  <label class="form-label" for="teacher">강사</label>
+                  <input
+                    v-model="cls.teacher"
+                    type="text"
+                    id="teacher"
+                    name="teacher"
+                    class="form-control"
+                  />
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="cateCd">종류</label>
+                  <select
+                    v-model="cls.cateCd"
+                    class="form-select"
+                    id="cateCd"
+                    name="cateCd"
+                  >
+                    <option v-if="!cateList.length">
+                      카테고리를 불러오지 못했습니다
+                    </option>
+                    <option
+                      v-else
+                      v-for="item in cateList"
+                      :key="item.cateCd"
+                      :value="item.cateCd"
+                    >
+                      {{ item.cateName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="status">상태</label>
+                  <select
+                    v-bind="cls.status"
+                    class="form-select"
+                    id="status"
+                    name="status"
+                  >
+                    <option value="1" selected>모집중</option>
+                    <option value="2">모집마감</option>
+                    <option value="0">비공개</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex-wrapper">
+                <div class="flex-box-3">
+                  <label class="form-label" for="sidoCd">시도</label>
+                  <select
+                    v-model="cls.sidoCd"
+                    @change="setSigList(cls.sidoCd)"
+                    class="form-select"
+                    id="sidoCd"
+                    name="sidoCd"
+                  >
+                    <option v-if="!sidoList.length">
+                      시도를 불러오지 못했습니다
+                    </option>
+                    <option
+                      v-else
+                      v-for="item in sidoList"
+                      :key="item.CTPRVN_CD"
+                      :value="item.CTPRVN_CD"
+                    >
+                      {{ item.CTP_KOR_NM }}
+                    </option>
+                  </select>
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="sigCd">시군구</label>
+                  <select
+                    v-model="cls.sigCd"
+                    class="form-select"
+                    id="sigCd"
+                    name="sigCd"
+                  >
+                    <option v-if="!sigList.length">시도를 선택해주세요</option>
+                    <option
+                      v-else
+                      v-for="item in sigList"
+                      :key="item.SIG_CD"
+                      :value="item.SIG_CD"
+                    >
+                      {{ item.SIG_KOR_NM }}
+                    </option>
+                  </select>
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="price">가격</label>
+                  <input
+                    v-model="cls.price"
+                    type="text"
+                    id="price"
+                    name="price"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="flex-wrapper">
+                <div class="flex-box-3">
+                  <label class="form-label" for="status">요일</label>
+                  <select
+                    v-bind="cls.status"
+                    class="form-select"
+                    id="status"
+                    name="status"
+                  >
+                    <option value="1" selected>모집중</option>
+                    <option value="2">모집마감</option>
+                    <option value="0">비공개</option>
+                  </select>
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="time">소요시간 </label>
+                  <input
+                    v-model="cls.time"
+                    class="form-control"
+                    id="time"
+                    name="time"
+                    type="text"
+                    de
+                  />
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="studentMax">최대 인원</label>
+                  <input
+                    v-model="cls.studentMax"
+                    type="text"
+                    id="studentMax"
+                    name="studentMax"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="expln">클래스 소개</label>
+                <textarea
+                  v-model="cls.expln"
+                  class="form-control"
+                  id="expln"
+                  name="expln"
+                  rows="3"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg">저장</button>
+              <button type="button" class="btn btn-secondary btn-lg">
+                취소
+              </button>
+            </form>
           </div>
+          <!-- </div> -->
         </div>
+        <!-- </div> -->
       </div>
     </section>
     <!-- contact-us section end -->
@@ -180,7 +210,7 @@ export default {
     const cls = ref({
       clsImg: 0,
       clsName: '',
-      teacher: '김강사',
+      teacher: '',
       cateCd: 1,
       status: '',
       sidoCd: '11',
@@ -222,23 +252,16 @@ export default {
 
     //시군구 목록세팅
     const setSigList = async (sidoCd) => {
-      const resList = [];
       try {
         const res = await axios.get(
           `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
         );
 
-        //시도에 해당하는 시군구 추출 --> 여기부터시작!!
-        resList.value = res.data;
-        console.log(res.data);
-        console.log(res.data.length);
-        for (let i = 0; i < res.data.length; i++) {
-          let item = resList[i];
-          console.log(i + ' : ' + item);
-        }
-
-        // console.log(sidoCd);
-        // console.log(res.data);
+        //시도에 해당하는 시군구 필터링
+        sigList.value = res.data;
+        sigList.value = sigList.value.filter((e) =>
+          e.SIG_CD.startsWith(sidoCd),
+        );
       } catch (err) {
         console.log('setSigList err : ', err);
       }
@@ -296,11 +319,18 @@ export default {
 </script>
 
 <style scoped>
-.flex-box {
+.flex-wrapper {
   display: flex;
+  margin-bottom: 1rem !important;
 }
-.flex-box > div {
-  flex: 1;
-  margin: 0px 20px 20px 0px;
+.flex-box-2 {
+  flex: 50% 0 0;
+  width: calc(100% / 2);
+  padding: 0px 30px;
+}
+.flex-box-3 {
+  flex: 33% 0 0;
+  width: calc(100% / 3);
+  padding: 0px 10px;
 }
 </style>
