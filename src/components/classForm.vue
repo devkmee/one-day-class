@@ -54,7 +54,7 @@
                     id="cateCd"
                     name="cateCd"
                   >
-                    <option v-if="!cateList.length">
+                    <option v-if="!cateList.length" value="0">
                       카테고리를 불러오지 못했습니다
                     </option>
                     <option
@@ -182,10 +182,20 @@
                   rows="3"
                 ></textarea>
               </div>
-              <button type="submit" class="btn btn-primary btn-lg">저장</button>
-              <button type="button" class="btn btn-secondary btn-lg">
-                취소
-              </button>
+              <div class="row">
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-primary m-3">
+                    저장
+                  </button>
+                  <button
+                    type="button"
+                    @click="goClassList()"
+                    class="btn btn-secondary m-3"
+                  >
+                    취소
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
           <!-- </div> -->
@@ -202,11 +212,13 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { moneyUnit } from '@/stores/moneyUnitStore';
+import { commonCode } from '@/stores/commonCodeStore';
 
 export default {
   setup() {
     const router = useRouter();
     const moneyUnitStore = moneyUnit();
+    const commonCodeStore = commonCode();
 
     const cateList = ref([]);
     const sidoList = ref([]);
@@ -218,19 +230,27 @@ export default {
       clsName: '',
       teacher: '',
       cateCd: 1,
+      cateNm: '',
       status: '',
       sidoCd: '11',
+      sidoNm: '',
       sigCd: '',
-      price: '',
-      studentMax: '',
-      time: '',
+      sigNm: '',
+      price: '0',
+      studentMax: '5',
+      time: '1',
       expln: '',
       dayWeek: '',
     });
 
+    // onBeforeMount(() => {
+    //   cateList.value = commonCodeStore.getCategory();
+    //   console.log('? ', cateList.value);
+    // });
+
     onMounted(() => {
-      setCateList();
       setSidoList();
+      setCateList();
     });
 
     //카테고리 목록세팅
@@ -242,6 +262,7 @@ export default {
         cateList.value = res.data;
       } catch (err) {
         console.log('setCateList err : ', err);
+        cateList.value = 0;
       }
     };
 
@@ -285,6 +306,10 @@ export default {
       cls.value.price = moneyUnitStore.numberUnit(price);
     };
 
+    const mappingCdNm = () => {
+      //cls.value.cateNm
+    };
+
     // const validationCheck = () => {
     //   const valiChk = false;
 
@@ -297,6 +322,13 @@ export default {
 
     // };
 
+    //목록으로 이동
+    const goClassList = () => {
+      router.push({
+        path: '/classList',
+      });
+    };
+
     //클래스 저장
     const saveClass = async () => {
       //validationCheck();
@@ -307,22 +339,24 @@ export default {
           clsName: cls.value.clsName,
           teacher: cls.value.teacher,
           cateCd: cls.value.cateCd,
+          cateNm: cls.value.cateNm,
           status: cls.value.status,
-          area: cls.value.area,
+          sidoCd: cls.value.sidoCd,
+          sidoNm: cls.value.sidoNm,
+          sigCd: cls.value.sigCd,
+          sigNm: cls.value.sigNm,
           price: cls.value.price,
           studentMax: cls.value.studentMax,
           time: cls.value.time,
           expln: cls.value.expln,
+          dayWeek: cls.value.dayWeek,
         };
         res = await axios.post('http://localhost:5000/class', data);
         console.log(res);
       } catch (err) {
         console.log('err : ', err);
       }
-      //목록으로 이동
-      router.push({
-        path: '/classList',
-      });
+      goClassList();
     };
     return {
       cateList,
@@ -330,13 +364,17 @@ export default {
       sigList,
       cls,
 
+      moneyUnitStore,
+      commonCodeStore,
+
       //validationCheck,
+      goClassList,
+      mappingCdNm,
       saveClass,
       setCateList,
       setSidoList,
       setSigList,
       setPrice,
-      moneyUnitStore,
     };
   },
 };

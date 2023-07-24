@@ -25,22 +25,24 @@
                     alt="..."
                   />
                   <div class="house__meta">
-                    <a href="#">{{ item.cateCd }}</a>
+                    <a href="#">{{ item.cateNm }}</a>
                   </div>
                 </div>
 
                 <div class="house__content">
                   <div class="house__content__main">
                     <h5 class="title">{{ item.clsName }}</h5>
-                    <i class="bi bi-currency-dollar"></i>
-                    <span> {{ item.price }}</span>
                   </div>
                 </div>
                 <div class="house__content__bottom">
                   <div class="info-wrap">
-                    <div class="info info-right">
+                    <div class="info info-left">
                       <i class="bi bi-geo-alt-fill"></i>
                       <span> {{ item.area }}</span>
+                    </div>
+                    <div class="info info-right">
+                      <i class="bi bi-currency-dollar"></i>
+                      <span> {{ moneyUnitStore.numberUnit(item.price) }}</span>
                     </div>
                   </div>
                 </div>
@@ -58,25 +60,31 @@
 import router from '@/router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { commonCode } from '@/stores/commonCodeStore';
+import { moneyUnit } from '@/stores/moneyUnitStore';
 
 export default {
   setup() {
+    const commonCodeStore = commonCode();
+    const moneyUnitStore = moneyUnit();
+
     const classArr = ref([]);
+    const cateList = commonCodeStore.cateList;
 
     let totalCnt = ref(0);
     let curPage = ref(1);
-    let limit = 6;
+    let limit = 9;
 
     onMounted(() => {
       selectClassList(curPage);
     });
 
+    //클래스 목록
     const selectClassList = async (page = curPage.value) => {
       try {
         const res = await axios.get(
           `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&_limit=${limit}`,
         );
-        //console.log("res", res);
         classArr.value = res.data;
         totalCnt.value = res.headers['x-total-count'];
         //console.log(res.headers);
@@ -87,6 +95,7 @@ export default {
       }
     };
 
+    //클래스 상세보기
     const goDetail = (classId) => {
       router.push({
         name: 'ClassDetail',
@@ -95,8 +104,12 @@ export default {
     };
 
     return {
+      commonCodeStore,
+      moneyUnitStore,
+
       classArr,
       totalCnt,
+      cateList,
 
       selectClassList,
       goDetail,
