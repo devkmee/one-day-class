@@ -128,6 +128,7 @@
                   <label class="form-label" for="price">가격</label>
                   <input
                     v-model="cls.price"
+                    @change="setPrice()"
                     type="text"
                     id="price"
                     name="price"
@@ -137,16 +138,16 @@
               </div>
               <div class="flex-wrapper">
                 <div class="flex-box-3">
-                  <label class="form-label" for="status">요일</label>
+                  <label class="form-label" for="dayWeek">요일</label>
                   <select
-                    v-bind="cls.status"
+                    v-bind="cls.dayWeek"
                     class="form-select"
-                    id="status"
-                    name="status"
+                    id="dayWeek"
+                    name="dayWeek"
                   >
-                    <option value="1" selected>모집중</option>
-                    <option value="2">모집마감</option>
-                    <option value="0">비공개</option>
+                    <option value="1" selected>평일</option>
+                    <option value="2">토요일</option>
+                    <option value="3">일요일</option>
                   </select>
                 </div>
                 <div class="flex-box-3">
@@ -199,9 +200,14 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { moneyUnit } from '@/stores/moneyUnitStore';
 
 export default {
   setup() {
+    const router = useRouter();
+    const moneyUnitStore = moneyUnit();
+
     const cateList = ref([]);
     const sidoList = ref([]);
     const sigList = ref([]);
@@ -219,6 +225,7 @@ export default {
       studentMax: '',
       time: '',
       expln: '',
+      dayWeek: '',
     });
 
     onMounted(() => {
@@ -245,6 +252,7 @@ export default {
           `http://localhost:5000/sidoCd?_sort=CTP_KOR_NM&_order=asc`,
         );
         sidoList.value = res.data;
+        setSigList('11');
       } catch (err) {
         console.log('setSidoList err : ', err);
       }
@@ -262,9 +270,19 @@ export default {
         sigList.value = sigList.value.filter((e) =>
           e.SIG_CD.startsWith(sidoCd),
         );
+        //시군구 기본값 세팅
+        cls.value.sigCd = sigList.value[0].SIG_CD;
       } catch (err) {
         console.log('setSigList err : ', err);
       }
+    };
+
+    //가격 세팅
+    const setPrice = () => {
+      let price = cls.value.price;
+      cls.value.price = moneyUnitStore.deleteChar(price);
+      console.log('>>> ' + cls.value.price);
+      cls.value.price = moneyUnitStore.numberUnit(price);
     };
 
     // const validationCheck = () => {
@@ -301,6 +319,10 @@ export default {
       } catch (err) {
         console.log('err : ', err);
       }
+      //목록으로 이동
+      router.push({
+        path: '/classList',
+      });
     };
     return {
       cateList,
@@ -313,6 +335,8 @@ export default {
       setCateList,
       setSidoList,
       setSigList,
+      setPrice,
+      moneyUnitStore,
     };
   },
 };
