@@ -74,7 +74,7 @@ export default {
     const selectClassList = async (page = curPage.value) => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&limit=${limit}`,
+          `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&_limit=${limit}`,
         );
         //console.log("res", res);
         classArr.value = res.data;
