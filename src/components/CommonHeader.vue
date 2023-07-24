@@ -1,10 +1,12 @@
 <template>
   <header>
-    <div>Common Header</div>
+    <router-link to="/classList"
+      ><div><img src="@/assets/images/logo.png" alt="logo.png" /></div
+    ></router-link>
     <div class="links">
-      <router-link to="/class/edit">미정</router-link>
-      <router-link to="/classList">HOME</router-link>
-      <router-link to="/class/edit">등록</router-link>
+      <router-link to="/class/edit"></router-link>
+      <router-link to="/classList"></router-link>
+      <router-link to="/class/edit">클래스 등록</router-link>
     </div>
   </header>
 </template>
