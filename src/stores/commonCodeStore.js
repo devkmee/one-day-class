@@ -13,7 +13,7 @@ export const commonCode = defineStore('commonCodeStore', () => {
         `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
       );
       cateList.value = res.data;
-      console.log('들어옴 ', cateList.value);
+      console.log('스토어 함수 ', cateList.value);
     } catch (err) {
       console.log('getCategory err : ', err);
       cateList.value = 0;

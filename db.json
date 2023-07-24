@@ -2,27 +2,27 @@
   "categoryCode": [
     {
       "cateCd": 1,
-      "cateName": "요리&베이킹"
+      "cateNm": "요리&베이킹"
     },
     {
       "cateCd": 2,
-      "cateName": "미술"
+      "cateNm": "미술"
     },
     {
       "cateCd": 3,
-      "cateName": "공예"
+      "cateNm": "공예"
     },
     {
       "cateCd": 4,
-      "cateName": "가드닝&플라워"
+      "cateNm": "가드닝&플라워"
     },
     {
       "cateCd": 5,
-      "cateName": "액티비티"
+      "cateNm": "액티비티"
     },
     {
       "cateCd": 6,
-      "cateName": "음악"
+      "cateNm": "음악"
     }
   ],
   "class": [

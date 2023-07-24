@@ -63,7 +63,7 @@
                       :key="item.cateCd"
                       :value="item.cateCd"
                     >
-                      {{ item.cateName }}
+                      {{ item.cateNm }}
                     </option>
                   </select>
                 </div>
@@ -306,8 +306,13 @@ export default {
       cls.value.price = moneyUnitStore.numberUnit(price);
     };
 
-    const mappingCdNm = () => {
-      //cls.value.cateNm
+    //jsonServer저장용 카테고리 코드-이름매칭
+    const mappingCate = () => {
+      for (let i = 0; i <= cateList.value.length - 1; i++) {
+        if (cls.value.cateCd == cateList.value[i].cateCd) {
+          cls.value.cateNm = cateList.value[i].cateNm;
+        }
+      }
     };
 
     // const validationCheck = () => {
@@ -334,6 +339,9 @@ export default {
       //validationCheck();
       try {
         let res;
+
+        mappingCate();
+
         const data = {
           clsImg: cls.value.clsImg,
           clsName: cls.value.clsName,
@@ -369,7 +377,7 @@ export default {
 
       //validationCheck,
       goClassList,
-      mappingCdNm,
+      mappingCate,
       saveClass,
       setCateList,
       setSidoList,
