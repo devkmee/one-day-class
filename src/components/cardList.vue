@@ -20,7 +20,8 @@
               <div class="house-card">
                 <div class="house__thumb">
                   <img
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                    :src="`https://source.unsplash.com/random/${item.id}
+                    `"
                     class="card-img-top"
                     alt="..."
                   />
