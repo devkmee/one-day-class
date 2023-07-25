@@ -14,7 +14,6 @@
         <div class="flex-wrapper">
           <div class="flex-box-2 section-banner">
             <img
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
               :src="`https://source.unsplash.com/random/300x250/?dessert`"
               class="card-img-top"
               alt="..."
@@ -71,7 +70,7 @@
                 <div class="flex-box-3">
                   <label class="form-label" for="status">상태</label>
                   <select
-                    v-bind="cls.status"
+                    v-model="cls.status"
                     class="form-select"
                     id="status"
                     name="status"
@@ -137,42 +136,6 @@
                   />
                 </div>
               </div>
-              <div class="flex-wrapper">
-                <div class="flex-box-3">
-                  <label class="form-label" for="dayWeek">요일</label>
-                  <select
-                    v-bind="cls.dayWeek"
-                    class="form-select"
-                    id="dayWeek"
-                    name="dayWeek"
-                  >
-                    <option value="1" selected>평일</option>
-                    <option value="2">토요일</option>
-                    <option value="3">일요일</option>
-                  </select>
-                </div>
-                <div class="flex-box-3">
-                  <label class="form-label" for="time">소요시간 </label>
-                  <input
-                    v-model="cls.time"
-                    class="form-control"
-                    id="time"
-                    name="time"
-                    type="text"
-                    de
-                  />
-                </div>
-                <div class="flex-box-3">
-                  <label class="form-label" for="studentMax">최대 인원</label>
-                  <input
-                    v-model="cls.studentMax"
-                    type="text"
-                    id="studentMax"
-                    name="studentMax"
-                    class="form-control"
-                  />
-                </div>
-              </div>
               <div class="mb-3">
                 <label class="form-label" for="expln">클래스 소개</label>
                 <textarea
@@ -232,16 +195,13 @@ export default {
       teacher: '',
       cateCd: 1,
       cateNm: '',
-      status: '',
+      status: '1',
       sidoCd: '11',
       sidoNm: '',
       sigCd: '',
       sigNm: '',
       price: '0',
-      studentMax: '5',
-      time: '1',
       expln: '',
-      dayWeek: '',
     });
 
     // onBeforeMount(() => {
@@ -303,7 +263,6 @@ export default {
     const setPrice = () => {
       let price = cls.value.price;
       cls.value.price = moneyUnitStore.deleteChar(price);
-      console.log('>>> ' + cls.value.price);
       cls.value.price = moneyUnitStore.numberUnit(price);
     };
 
@@ -317,15 +276,15 @@ export default {
     //jsonServer저장용 시도 코드-이름매칭
     const mappingSido = () => {
       cls.value.sidoNm = sidoList.value.find(
-        (e) => e.sidoCd === cls.value.sidoCd,
-      ).sidoNm;
+        (e) => e.CTPRVN_CD === cls.value.sidoCd,
+      ).CTP_KOR_NM;
     };
 
     //jsonServer저장용 시군구 코드-이름매칭
     const mappingSig = () => {
       cls.value.sigNm = sigList.value.find(
-        (e) => e.sigCd === cls.value.sigCd,
-      ).sigNm;
+        (e) => e.SIG_CD === cls.value.sigCd,
+      ).SIG_KOR_NM;
     };
 
     //jsonServer저장용 공통 코드-이름매칭
@@ -344,11 +303,6 @@ export default {
     //   return valiChk;
     // };
 
-    //초기화
-    // const resetClass = () {
-
-    // };
-
     //목록으로 이동
     const goClassList = () => {
       router.push({
@@ -361,6 +315,8 @@ export default {
       //validationCheck();
       try {
         mappingCate();
+        mappingSido();
+        mappingSig();
         //mappingCdNm(cateList, 'cateCd', 'cateNm');
 
         const data = {
@@ -375,10 +331,7 @@ export default {
           sigCd: cls.value.sigCd,
           sigNm: cls.value.sigNm,
           price: cls.value.price,
-          studentMax: cls.value.studentMax,
-          time: cls.value.time,
           expln: cls.value.expln,
-          dayWeek: cls.value.dayWeek,
         };
         await axios.post('http://localhost:5000/class', data);
       } catch (err) {
