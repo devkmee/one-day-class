@@ -11,18 +11,18 @@
         </div>
 
         <!-- <div class="row justify-content-between align-items-center"> -->
-        <div class="flex-wrapper">
-          <div class="flex-box-2 section-banner">
-            <img
-              :src="`https://source.unsplash.com/random/300x250/?dessert`"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
+        <form @submit.prevent="saveClass">
+          <div class="flex-wrapper">
+            <div class="flex-box-2 section-banner">
+              <img
+                :src="`https://source.unsplash.com/random/300x250/?dessert`"
+                class="card-img-top"
+                alt="..."
+              />
+            </div>
 
-          <!-- <div class="flex-wrapper"> -->
-          <div class="flex-box-2">
-            <form @submit.prevent="saveClass">
+            <!-- <div class="flex-wrapper"> -->
+            <div class="flex-box-2">
               <div class="mb-5">
                 <div class="mb-3">
                   <label for="clsName" class="form-label">클래스 이름</label>
@@ -36,16 +36,6 @@
               </div>
 
               <div class="flex-wrapper">
-                <div class="flex-box-3">
-                  <label class="form-label" for="teacher">강사</label>
-                  <input
-                    v-model="cls.teacher"
-                    type="text"
-                    id="teacher"
-                    name="teacher"
-                    class="form-control"
-                  />
-                </div>
                 <div class="flex-box-3">
                   <label class="form-label" for="cateCd">종류</label>
                   <select
@@ -77,8 +67,18 @@
                   >
                     <option value="1" selected>모집중</option>
                     <option value="2">모집마감</option>
-                    <option value="0">비공개</option>
                   </select>
+                </div>
+                <div class="flex-box-3">
+                  <label class="form-label" for="price">가격</label>
+                  <input
+                    v-model="cls.price"
+                    @change="setPrice()"
+                    type="text"
+                    id="price"
+                    name="price"
+                    class="form-control"
+                  />
                 </div>
               </div>
 
@@ -125,14 +125,14 @@
                   </select>
                 </div>
                 <div class="flex-box-3">
-                  <label class="form-label" for="price">가격</label>
+                  <label class="form-label" for="time">소요시간 </label>
                   <input
-                    v-model="cls.price"
-                    @change="setPrice()"
-                    type="text"
-                    id="price"
-                    name="price"
+                    v-model="cls.time"
                     class="form-control"
+                    id="time"
+                    name="time"
+                    type="text"
+                    de
                   />
                 </div>
               </div>
@@ -146,25 +146,23 @@
                   rows="3"
                 ></textarea>
               </div>
-              <div class="row">
-                <div class="col text-center">
-                  <button type="submit" class="btn btn-primary m-3">
-                    저장
-                  </button>
-                  <button
-                    type="button"
-                    @click="goClassList()"
-                    class="btn btn-secondary m-3"
-                  >
-                    취소
-                  </button>
-                </div>
-              </div>
-            </form>
+            </div>
+            <!-- </div> -->
+          </div>
+          <div class="row mt-5">
+            <div class="col text-center">
+              <button type="submit" class="btn btn-primary m-3">저장</button>
+              <button
+                type="button"
+                @click="goClassList()"
+                class="btn btn-secondary m-3"
+              >
+                취소
+              </button>
+            </div>
           </div>
           <!-- </div> -->
-        </div>
-        <!-- </div> -->
+        </form>
       </div>
     </section>
     <!-- contact-us section end -->
@@ -192,7 +190,7 @@ export default {
     const cls = ref({
       clsImg: 0,
       clsName: '',
-      teacher: '',
+      teacher: '김양초',
       cateCd: 1,
       cateNm: '',
       status: '1',
@@ -201,6 +199,8 @@ export default {
       sigCd: '',
       sigNm: '',
       price: '0',
+      studentMax: '5',
+      time: '1',
       expln: '',
     });
 
@@ -331,13 +331,15 @@ export default {
           sigCd: cls.value.sigCd,
           sigNm: cls.value.sigNm,
           price: cls.value.price,
+          studentMax: cls.value.studentMax,
+          time: cls.value.time,
           expln: cls.value.expln,
         };
         await axios.post('http://localhost:5000/class', data);
       } catch (err) {
         console.log('err : ', err);
       }
-      //goClassList();
+      goClassList();
     };
     return {
       cateList,

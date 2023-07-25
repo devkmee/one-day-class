@@ -7,7 +7,7 @@
           <div class="col-md-5">
             <div class="section-banner">
               <img
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                :src="`https://source.unsplash.com/random/300x250/?dessert`"
                 class="card-img-top"
                 alt="..."
               />
@@ -29,7 +29,7 @@
               <ul class="icon-list">
                 <li>
                   <i class="bi bi-geo-alt-fill"></i>
-                  <span> {{ cls.area }}</span>
+                  <span> {{ cls.sidoNm }} {{ cls.sigNm }}</span>
                 </li>
                 <li>
                   <i class="bi bi-stopwatch-fill"></i>
@@ -40,15 +40,25 @@
                   <span>최대 {{ cls.studentMax }}명</span>
                 </li>
                 <li>
-                  <i class="bi bi-coin"></i>
+                  <i class="bi bi-currency-dollar"></i>
                   <span>{{ cls.price }} 원</span>
                 </li>
               </ul>
               <p class="text">
                 {{ cls.expln }}
               </p>
-
-              <a href="#" class="btn btn-primary">문의하기</a>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col text-center">
+              <button type="button" class="btn btn-primary m-3">수정</button>
+              <button
+                type="button"
+                @click="goClassList()"
+                class="btn btn-secondary m-3"
+              >
+                삭제
+              </button>
             </div>
           </div>
         </div>
@@ -61,29 +71,18 @@
 <script>
 import axios from 'axios';
 import { useRoute } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onBeforeMount } from 'vue';
+import { moneyUnit } from '@/stores/moneyUnitStore';
 
 export default {
   setup() {
     const route = useRoute();
+    const moneyUnitStore = moneyUnit();
 
     const clsId = route.params.id;
-    const cls = ref({
-      id: 0,
-      clsImg: 0,
-      clsName: '',
-      teacher: '',
-      expln: '',
-      area: '',
-      cateCd: '',
-      studentMax: '',
-      timeStart: '',
-      timeEnd: '',
-      price: '',
-      status: 0,
-    });
+    const cls = ref({});
 
-    onMounted(() => {
+    onBeforeMount(() => {
       selectClsView();
     });
 
@@ -95,6 +94,7 @@ export default {
         cls.value = {
           ...res.data,
         };
+        cls.value.price = moneyUnitStore.moneyUnit(cls.value.price);
         console.log(res);
       } catch (err) {
         console.log('selectClsView err : ', err);

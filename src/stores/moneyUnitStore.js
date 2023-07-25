@@ -8,8 +8,8 @@ export const moneyUnit = defineStore('moneyUnitStore', () => {
     unitedNumber.value = orgNumber
       .toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    // console.log('orgNumber : ' + orgNumber);
-    // console.log('unitedNumber : ' + unitedNumber.value);
+    console.log('orgNumber : ' + orgNumber);
+    console.log('unitedNumber : ' + unitedNumber.value);
 
     return unitedNumber;
   };
@@ -26,7 +26,7 @@ export const moneyUnit = defineStore('moneyUnitStore', () => {
     } else {
       result.value = '';
     }
-    //console.log('result : ', result.value);
+    console.log('result : ', result.value);
 
     return result;
   };

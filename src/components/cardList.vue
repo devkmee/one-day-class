@@ -39,7 +39,7 @@
                   <div class="info-wrap">
                     <div class="info info-left">
                       <i class="bi bi-geo-alt-fill"></i>
-                      <span> {{ item.area }}</span>
+                      <span> {{ item.sidoNm }} {{ item.sigNm }}</span>
                     </div>
                     <div class="info info-right">
                       <i class="bi bi-currency-dollar"></i>
