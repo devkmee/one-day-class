@@ -308,11 +308,18 @@ export default {
 
     //jsonServer저장용 카테고리 코드-이름매칭
     const mappingCate = () => {
-      for (let i = 0; i <= cateList.value.length - 1; i++) {
-        if (cls.value.cateCd == cateList.value[i].cateCd) {
-          cls.value.cateNm = cateList.value[i].cateNm;
-        }
-      }
+      cls.value.cateNm = cateList.value.find(
+        (e) => e.cateCd === cls.value.cateCd,
+      ).cateNm;
+    };
+
+    //jsonServer저장용 공통 코드-이름매칭
+    const mappingCdNm = (paramList, paramCode, paraNm) => {
+      console.log('paramCode : ' + paramCode + ', paraNm: ' + paraNm);
+
+      cls.value.cateNm = cateList.value.find(
+        (e) => e.cateCd === cls.value.cateCd,
+      ).cateNm;
     };
 
     // const validationCheck = () => {
@@ -338,9 +345,8 @@ export default {
     const saveClass = async () => {
       //validationCheck();
       try {
-        let res;
-
         mappingCate();
+        //mappingCdNm(cateList, 'cateCd', 'cateNm');
 
         const data = {
           clsImg: cls.value.clsImg,
@@ -359,12 +365,11 @@ export default {
           expln: cls.value.expln,
           dayWeek: cls.value.dayWeek,
         };
-        res = await axios.post('http://localhost:5000/class', data);
-        console.log(res);
+        await axios.post('http://localhost:5000/class', data);
       } catch (err) {
         console.log('err : ', err);
       }
-      goClassList();
+      //goClassList();
     };
     return {
       cateList,
@@ -378,6 +383,7 @@ export default {
       //validationCheck,
       goClassList,
       mappingCate,
+      mappingCdNm,
       saveClass,
       setCateList,
       setSidoList,
