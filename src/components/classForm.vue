@@ -15,6 +15,7 @@
           <div class="flex-box-2 section-banner">
             <img
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              :src="`https://source.unsplash.com/random/300x250/?dessert`"
               class="card-img-top"
               alt="..."
             />
@@ -313,6 +314,20 @@ export default {
       ).cateNm;
     };
 
+    //jsonServer저장용 시도 코드-이름매칭
+    const mappingSido = () => {
+      cls.value.sidoNm = sidoList.value.find(
+        (e) => e.sidoCd === cls.value.sidoCd,
+      ).sidoNm;
+    };
+
+    //jsonServer저장용 시군구 코드-이름매칭
+    const mappingSig = () => {
+      cls.value.sigNm = sigList.value.find(
+        (e) => e.sigCd === cls.value.sigCd,
+      ).sigNm;
+    };
+
     //jsonServer저장용 공통 코드-이름매칭
     const mappingCdNm = (paramList, paramCode, paraNm) => {
       console.log('paramCode : ' + paramCode + ', paraNm: ' + paraNm);
@@ -383,6 +398,8 @@ export default {
       //validationCheck,
       goClassList,
       mappingCate,
+      mappingSido,
+      mappingSig,
       mappingCdNm,
       saveClass,
       setCateList,
