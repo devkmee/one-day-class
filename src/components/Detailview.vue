@@ -22,7 +22,7 @@
                 <li>
                   <h2>
                     <i class="bi bi-person-circle"></i>
-                    <span> {{ cls.teacher }} 강사</span>
+                    <span> {{ cls.teacher }}</span>
                   </h2>
                 </li>
               </ul>
@@ -51,11 +51,17 @@
           </div>
           <div class="row mt-5">
             <div class="col text-center">
-              <button type="button" class="btn btn-primary m-3">수정</button>
               <button
                 type="button"
-                @click="goClassList()"
+                class="btn btn-primary m-3"
+                @click="goUpdate()"
+              >
+                수정
+              </button>
+              <button
+                type="button"
                 class="btn btn-secondary m-3"
+                @click="deleteClass"
               >
                 삭제
               </button>
@@ -73,6 +79,7 @@ import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { ref, onBeforeMount } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
+import router from '@/router';
 
 export default {
   setup() {
@@ -101,9 +108,39 @@ export default {
       }
     };
 
+    //수정화면 이동
+    const goUpdate = () => {
+      router.push({
+        name: 'ClassEdit',
+      });
+    };
+
+    //목록으로 이동
+    const goClassList = () => {
+      router.push({
+        path: '/classList',
+      });
+    };
+
+    //클래스 삭제
+    const deleteClass = async () => {
+      console.log('clsId : ', clsId);
+      try {
+        await axios.delete(`http://localhost:5000/class/${clsId}`);
+        alert('클래스가 삭제되었습니다');
+        goClassList();
+      } catch (err) {
+        console.log('deleteClass err', err);
+      }
+    };
+
     return {
       clsId,
       cls,
+
+      goUpdate,
+      goClassList,
+      deleteClass,
     };
   },
 };

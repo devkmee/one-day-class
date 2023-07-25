@@ -177,7 +177,13 @@ import { moneyUnit } from '@/stores/moneyUnitStore';
 import { commonCode } from '@/stores/commonCodeStore';
 
 export default {
-  setup() {
+  props: {
+    editFlag: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
     const router = useRouter();
     const moneyUnitStore = moneyUnit();
     const commonCodeStore = commonCode();
@@ -212,6 +218,10 @@ export default {
     onMounted(() => {
       setSidoList();
       setCateList();
+
+      if (props.editFlag) {
+        console.log('props.editFlag : ', props.editFlag);
+      }
     });
 
     //카테고리 목록세팅

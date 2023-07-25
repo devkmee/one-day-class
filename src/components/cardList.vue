@@ -42,8 +42,9 @@
                       <span> {{ item.sidoNm }} {{ item.sigNm }}</span>
                     </div>
                     <div class="info info-right">
-                      <i class="bi bi-currency-dollar"></i>
-                      <span> {{ moneyUnitStore.numberUnit(item.price) }}</span>
+                      <span>
+                        {{ moneyUnitStore.numberUnit(item.price) }}원</span
+                      >
                     </div>
                   </div>
                 </div>

@@ -1806,6 +1806,7 @@ section.testimonials .slider-nav button.swiper-button-disabled {
   letter-spacing: 0em;
   color: #344054;
   margin-bottom: 20px;
+  height: 35px;
 }
 @media screen and (max-width: 991px) {
   .house-card .house__content__main .title {
