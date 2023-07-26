@@ -296,9 +296,8 @@ export default {
 
     //가격 세팅
     const setPrice = () => {
-      let price = cls.value.price;
-      cls.value.price = moneyUnitStore.deleteChar(price);
-      cls.value.price = moneyUnitStore.numberUnit(price);
+      cls.value.price = moneyUnitStore.deleteChar(cls.value.price);
+      cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
     };
 
     //jsonServer저장용 카테고리 코드-이름매칭

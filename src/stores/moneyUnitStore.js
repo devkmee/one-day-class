@@ -2,21 +2,23 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const moneyUnit = defineStore('moneyUnitStore', () => {
+  /**
+   * 숫자 1000단위 콤마 추가
+   * @param {int} orgNumber 문자열 형식 숫자
+   * @returns {string} 콤마가 추가된 문자열 숫자
+   */
   const numberUnit = (orgNumber) => {
-    //1000단위 콤마 추가
     const unitedNumber = ref(0);
     unitedNumber.value = orgNumber
       //.toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    console.log('orgNumber : ' + orgNumber);
-    console.log('unitedNumber : ' + unitedNumber.value);
 
     return unitedNumber;
   };
 
   /**문자열에서 특정문자 제거
-   * orgString : 문자열
-   * paramChar : 제거할 문자
+   * @param {string} orgString 문자열
+   * @returns {string} 특정문자가 제거된 문자열
    */
   const deleteChar = (orgString) => {
     const result = ref('');
@@ -26,7 +28,6 @@ export const moneyUnit = defineStore('moneyUnitStore', () => {
     } else {
       result.value = '';
     }
-    console.log('result : ', result.value);
 
     return result;
   };
