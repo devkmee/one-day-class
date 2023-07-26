@@ -24,19 +24,17 @@
             <!-- <div class="flex-wrapper"> -->
             <div class="flex-box-2">
               <div class="mb-5">
-                <div class="mb-3">
-                  <label for="clsName" class="form-label">클래스 이름</label>
-                  <input
-                    v-model="cls.clsName"
-                    type="text"
-                    class="form-control"
-                    id="clsName"
-                  />
-                </div>
+                <label for="clsName" class="form-label">클래스 이름</label>
+                <input
+                  v-model="cls.clsName"
+                  type="text"
+                  class="form-control"
+                  id="clsName"
+                />
               </div>
 
               <div class="flex-wrapper">
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="cateCd">종류</label>
                   <select
                     v-model="cls.cateCd"
@@ -57,7 +55,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="status">상태</label>
                   <select
                     v-model="cls.status"
@@ -69,7 +67,7 @@
                     <option value="2">모집마감</option>
                   </select>
                 </div>
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="price">가격</label>
                   <input
                     v-model="cls.price"
@@ -83,7 +81,7 @@
               </div>
 
               <div class="flex-wrapper">
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="sidoCd">시도</label>
                   <select
                     v-model="cls.sidoCd"
@@ -105,7 +103,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="sigCd">시군구</label>
                   <select
                     v-model="cls.sigCd"
@@ -124,7 +122,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="flex-box-3">
+                <div class="flex-box-3 mb-5">
                   <label class="form-label" for="time">소요시간 </label>
                   <input
                     v-model="cls.time"
@@ -136,14 +134,14 @@
                   />
                 </div>
               </div>
-              <div class="mb-3">
+              <div class="mb-5">
                 <label class="form-label" for="expln">클래스 소개</label>
                 <textarea
                   v-model="cls.expln"
                   class="form-control"
                   id="expln"
                   name="expln"
-                  rows="3"
+                  rows="9"
                 ></textarea>
               </div>
             </div>
