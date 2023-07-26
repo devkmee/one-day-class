@@ -19,8 +19,8 @@ const router = createRouter({
       component: () => import('@/views/ClassDetail.vue'),
     },
     {
-      path: '/class/edit',
-      name: 'ClassEdit',
+      path: '/class/update/:id',
+      name: 'ClassUpdate',
       component: () => import('@/views/ClassEdit.vue'),
     },
     {

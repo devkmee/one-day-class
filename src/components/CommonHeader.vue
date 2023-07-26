@@ -1,9 +1,9 @@
 <template>
   <header>
     <div class="links">
-      <router-link to="/class/edit"></router-link>
       <router-link to="/classList"></router-link>
-      <router-link to="/class/edit">클래스 등록</router-link>
+      <router-link to="/classList"></router-link>
+      <router-link to="/class/create">클래스 등록</router-link>
     </div>
     <router-link to="/classList"
       ><div><img src="@/assets/images/logo.png" alt="logo.png" /></div

@@ -110,7 +110,8 @@ export default {
     //수정화면 이동
     const goUpdate = () => {
       router.push({
-        name: 'ClassEdit',
+        name: 'ClassUpdate',
+        params: { id: clsId },
       });
     };
 

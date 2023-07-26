@@ -172,43 +172,26 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 import { commonStore } from '@/stores/commonCodeStore';
 
 export default {
-  props: {
-    editFlag: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props) {
+  setup() {
     const router = useRouter();
+    const route = useRoute();
     const moneyUnitStore = moneyUnit();
     const commonCodeStore = commonStore();
+
+    //false=등록, true=수정
+    const updateFlag = route.name === 'ClassCreate' ? false : true;
 
     const cateList = ref([]);
     const sidoList = ref([]);
     const sigList = ref([]);
 
-    //클래스
-    const cls = ref({
-      clsImg: 0,
-      clsName: '',
-      teacher: '김강사',
-      cateCd: 1,
-      cateNm: '',
-      status: '1',
-      sidoCd: '11',
-      sidoNm: '',
-      sigCd: '',
-      sigNm: '',
-      price: '0',
-      studentMax: '5',
-      time: '1',
-      expln: '',
-    });
+    //클래스 등록 시 초기값
+    const cls = ref({});
 
     // onBeforeMount(() => {
     //   cateList.value = commonCodeStore.getCategory();
@@ -218,13 +201,53 @@ export default {
     onMounted(() => {
       setSidoList();
       setCateList();
-
-      if (props.editFlag) {
-        console.log('editFlag : ', props.editFlag);
-      }
+      initClassEdit();
     });
 
-    console.log('props.editFlag : ', props.editFlag);
+    const initClassEdit = () => {
+      //등록
+      if (!updateFlag) resetCls();
+      //수정
+      else getCls();
+    };
+
+    //cls 초기화
+    const resetCls = () => {
+      cls.value = {
+        clsImg: 0,
+        clsName: '',
+        teacher: '김강사',
+        cateCd: 1,
+        cateNm: '',
+        status: '1',
+        sidoCd: '11',
+        sidoNm: '',
+        sigCd: '',
+        sigNm: '',
+        price: '0',
+        studentMax: '5',
+        time: '1',
+        expln: '',
+      };
+    };
+
+    //수정 시 데이터 조회
+    const getCls = async () => {
+      const paramClsId = route.params.id;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/class/${paramClsId}`,
+        );
+        cls.value = {
+          ...res.data,
+        };
+        cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
+        //console.log(res);
+      } catch (err) {
+        console.log('getCls err : ', err);
+      }
+    };
 
     //카테고리 목록세팅
     const setCateList = async () => {
@@ -325,35 +348,48 @@ export default {
     //클래스 저장
     const saveClass = async () => {
       //validationCheck();
-      try {
-        mappingCate();
-        mappingSido();
-        mappingSig();
-        //mappingCdNm(cateList, 'cateCd', 'cateNm');
+      mappingCate();
+      mappingSido();
+      mappingSig();
 
-        const data = {
-          clsImg: cls.value.clsImg,
-          clsName: cls.value.clsName,
-          teacher: cls.value.teacher,
-          cateCd: cls.value.cateCd,
-          cateNm: cls.value.cateNm,
-          status: cls.value.status,
-          sidoCd: cls.value.sidoCd,
-          sidoNm: cls.value.sidoNm,
-          sigCd: cls.value.sigCd,
-          sigNm: cls.value.sigNm,
-          price: cls.value.price,
-          studentMax: cls.value.studentMax,
-          time: cls.value.time,
-          expln: cls.value.expln,
-        };
-        await axios.post('http://localhost:5000/class', data);
-      } catch (err) {
-        console.log('err : ', err);
+      const data = {
+        clsImg: cls.value.clsImg,
+        clsName: cls.value.clsName,
+        teacher: cls.value.teacher,
+        cateCd: cls.value.cateCd,
+        cateNm: cls.value.cateNm,
+        status: cls.value.status,
+        sidoCd: cls.value.sidoCd,
+        sidoNm: cls.value.sidoNm,
+        sigCd: cls.value.sigCd,
+        sigNm: cls.value.sigNm,
+        price: cls.value.price,
+        studentMax: cls.value.studentMax,
+        time: cls.value.time,
+        expln: cls.value.expln,
+      };
+
+      //등록
+      if (!updateFlag) {
+        try {
+          await axios.post('http://localhost:5000/class', data);
+        } catch (err) {
+          console.log('등록 err : ', err);
+        }
+
+        //수정
+      } else {
+        const paramClsId = route.params.id;
+        try {
+          await axios.put('http://localhost:5000/class/' + paramClsId, data);
+        } catch (err) {
+          console.log('수정 err : ', err);
+        }
       }
       goClassList();
     };
     return {
+      updateFlag,
       cateList,
       sidoList,
       sigList,
@@ -363,6 +399,9 @@ export default {
       commonCodeStore,
 
       //validationCheck,
+      initClassEdit,
+      resetCls,
+      getCls,
       goClassList,
       mappingCate,
       mappingSido,
