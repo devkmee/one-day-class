@@ -79,6 +79,7 @@ import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { ref, onBeforeMount } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
+import { moneyUnit } from '@/stores/commonCodeStore';
 import router from '@/router';
 
 export default {

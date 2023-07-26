@@ -6,7 +6,7 @@ export const moneyUnit = defineStore('moneyUnitStore', () => {
     //1000단위 콤마 추가
     const unitedNumber = ref(0);
     unitedNumber.value = orgNumber
-      .toString()
+      //.toString()
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
     console.log('orgNumber : ' + orgNumber);
     console.log('unitedNumber : ' + unitedNumber.value);
