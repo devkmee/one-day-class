@@ -1,17 +1,17 @@
 <template>
-  <!-- <cardFilter @cName="aa(cName)" /> -->
+  <classSearch />
   <cardList />
 </template>
 
 <script>
 import cardList from '@/components/cardList.vue';
-import cardFilter from '@/components/cardFilter.vue';
+import classSearch from '@/components/classSearch.vue';
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
+    classSearch,
     cardList,
-    // cardFilter,
   },
   setup() {
     const router = useRouter();
@@ -22,13 +22,8 @@ export default {
       });
     };
 
-    // const aa = (cName) => {
-    //   console.log(cName);
-    // };
-
     return {
       goclassForm,
-      //aa,
     };
   },
 };

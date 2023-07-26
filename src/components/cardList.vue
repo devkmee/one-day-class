@@ -72,7 +72,7 @@ export default {
 
     let totalCnt = ref(0);
     let curPage = ref(1);
-    let limit = 9;
+    let limit = 6;
 
     onMounted(() => {
       selectClassList(curPage);

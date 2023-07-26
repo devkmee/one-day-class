@@ -5,15 +5,20 @@
       <router-link to="/classList"></router-link>
       <router-link to="/class/create">클래스 등록</router-link>
     </div>
-    <router-link to="/classList"
-      ><div><img src="@/assets/images/logo.png" alt="logo.png" /></div
-    ></router-link>
+    <div class="logoDiv">
+      <router-link to="/classList"
+        ><div><img src="@/assets/images/logo.png" alt="logo.png" /></div
+      ></router-link>
+    </div>
   </header>
 </template>
 
 <script setup></script>
 
 <style scoped>
+.logoDiv {
+  min-height: 330px;
+}
 .links {
   display: flex;
 }
