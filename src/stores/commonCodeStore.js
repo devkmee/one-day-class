@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 
-export const commonCode = defineStore('commonCodeStore', () => {
+export const commonStore = defineStore('commonCodeStore', () => {
   const moneyUnitStore = moneyUnit();
   const cateList = ref([]);
 
@@ -26,20 +26,22 @@ export const commonCode = defineStore('commonCodeStore', () => {
 
   //상세조회
   const selectClass = async (clsId) => {
-    const cls = ref([]);
-    console.log('clsId : ', clsId);
+    const resCls = ref({});
+    // console.log('clsId : ', clsId);
     try {
       const res = await axios.get(`http://localhost:5000/class/${clsId}`);
-      cls.value = {
+      resCls.value = {
         ...res.data,
       };
-      cls.value.price = moneyUnitStore.moneyUnit(cls.value.price);
-      console.log(res);
+      resCls.value.price = moneyUnitStore.numberUnit(resCls.value.price);
+      console.log('resCls.value', resCls.value, res.data);
     } catch (err) {
       console.log('selectClsView err : ', err);
     }
 
-    return cls;
+    // console.log('resCls', cls);
+
+    return resCls;
   };
   return { cateList, getCategory, selectClass };
 });

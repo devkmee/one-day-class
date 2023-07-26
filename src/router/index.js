@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'ClassEdit',
       component: () => import('@/views/ClassEdit.vue'),
     },
+    {
+      path: '/class/create',
+      name: 'ClassCreate',
+      component: () => import('@/views/ClassEdit.vue'),
+    },
   ],
 });
 

@@ -79,7 +79,6 @@ import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { ref, onBeforeMount } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
-import { moneyUnit } from '@/stores/commonCodeStore';
 import router from '@/router';
 
 export default {
@@ -96,13 +95,12 @@ export default {
 
     //상세조회
     const selectClsView = async () => {
-      console.log('clsId : ', clsId);
       try {
         const res = await axios.get(`http://localhost:5000/class/${clsId}`);
         cls.value = {
           ...res.data,
         };
-        cls.value.price = moneyUnitStore.moneyUnit(cls.value.price);
+        cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
         console.log(res);
       } catch (err) {
         console.log('selectClsView err : ', err);

@@ -62,16 +62,13 @@
 import router from '@/router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import { commonCode } from '@/stores/commonCodeStore';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 
 export default {
   setup() {
-    const commonCodeStore = commonCode();
     const moneyUnitStore = moneyUnit();
 
     const classArr = ref([]);
-    const cateList = commonCodeStore.cateList;
 
     let totalCnt = ref(0);
     let curPage = ref(1);
@@ -106,12 +103,10 @@ export default {
     };
 
     return {
-      commonCodeStore,
       moneyUnitStore,
 
       classArr,
       totalCnt,
-      cateList,
 
       selectClassList,
       goDetail,

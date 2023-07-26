@@ -174,7 +174,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { moneyUnit } from '@/stores/moneyUnitStore';
-import { commonCode } from '@/stores/commonCodeStore';
+import { commonStore } from '@/stores/commonCodeStore';
 
 export default {
   props: {
@@ -186,7 +186,7 @@ export default {
   setup(props) {
     const router = useRouter();
     const moneyUnitStore = moneyUnit();
-    const commonCodeStore = commonCode();
+    const commonCodeStore = commonStore();
 
     const cateList = ref([]);
     const sidoList = ref([]);
@@ -196,7 +196,7 @@ export default {
     const cls = ref({
       clsImg: 0,
       clsName: '',
-      teacher: '김양초',
+      teacher: '김강사',
       cateCd: 1,
       cateNm: '',
       status: '1',
@@ -220,9 +220,11 @@ export default {
       setCateList();
 
       if (props.editFlag) {
-        console.log('props.editFlag : ', props.editFlag);
+        console.log('editFlag : ', props.editFlag);
       }
     });
+
+    console.log('props.editFlag : ', props.editFlag);
 
     //카테고리 목록세팅
     const setCateList = async () => {
