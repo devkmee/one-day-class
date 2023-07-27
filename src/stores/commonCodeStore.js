@@ -18,7 +18,6 @@ export const commonStore = defineStore('commonCodeStore', () => {
       console.log('스토어 함수 ', cateList.value);
     } catch (err) {
       console.log('getCategory err : ', err);
-      cateList.value = 0;
     }
 
     return cateList;
@@ -38,8 +37,6 @@ export const commonStore = defineStore('commonCodeStore', () => {
     } catch (err) {
       console.log('selectClsView err : ', err);
     }
-
-    // console.log('resCls', cls);
 
     return resCls;
   };
