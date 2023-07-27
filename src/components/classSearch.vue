@@ -22,7 +22,7 @@
                 <label for="searchSidoCd" class="fw-bold fs-3">시도</label>
                 <select
                   v-model="searchSidoCd"
-                  @change="setSigList(cls.sidoCd)"
+                  @change="setSigList(searchSidoCd)"
                   name="searchSidoCd"
                   id="searchSidoCd"
                 >
@@ -81,20 +81,23 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import axios from 'axios';
 
 export default {
+  emits: ['get-classList'],
   setup() {
+    const { emit } = getCurrentInstance();
+
+    let curPage = 1;
+    const limit = 6;
+    const classList = ref([]);
     const sidoList = ref([]);
     const sigList = ref([]);
 
     let searchClsName = ref('');
     let searchSidoCd = ref('11');
     let searchSigCd = ref('');
-    const classList = ref([]);
-    let curPage = 1;
-    const limit = 6;
 
     onMounted(() => {
       setSidoList();
@@ -132,17 +135,18 @@ export default {
       }
     };
 
-    //클래스 목록
+    //클래스 목록 검색
     const searchClassList = async (page = curPage) => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/class?&sidoCd_like=_${searchSidoCd.value}&sigCd_like=_${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`,
+          `http://localhost:5000/class?&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`,
         );
         classList.value = res.data;
         console.log('res.data : ', res.data);
       } catch (err) {
         console.log('searchClassList err : ', err);
       }
+      emit('get-classList', classList);
     };
 
     return {

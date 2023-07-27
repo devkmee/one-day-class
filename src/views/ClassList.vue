@@ -1,16 +1,15 @@
 <template>
-  <classSearch />
-  <cardList />
+  <div>
+    <cardList />
+  </div>
 </template>
 
 <script>
 import cardList from '@/components/cardList.vue';
-import classSearch from '@/components/classSearch.vue';
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    classSearch,
     cardList,
   },
   setup() {

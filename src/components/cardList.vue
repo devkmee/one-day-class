@@ -1,4 +1,5 @@
 <template>
+  <classSearch @get-classList="getClassList()" />
   <section class="houses" id="houses">
     <div class="container">
       <div class="section-header">
@@ -13,7 +14,7 @@
           <!--item start-->
           <div
             class="col-md-4 col-sm-6"
-            v-for="item in classArr"
+            v-for="item in itemList"
             :key="item.id"
           >
             <RouterLink :to="`/class/${item.id}`">
@@ -60,38 +61,48 @@
 
 <script>
 import router from '@/router';
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
+//import axios from 'axios';
+import classSearch from '@/components/classSearch.vue';
+import { ref } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 
 export default {
+  components: {
+    classSearch,
+  },
   setup() {
     const moneyUnitStore = moneyUnit();
+    const itemList = ref([]);
 
-    const classArr = ref([]);
+    // const classArr = ref([]);
 
-    let totalCnt = ref(0);
-    let curPage = ref(1);
-    let limit = 6;
+    // let totalCnt = ref(0);
+    // let curPage = ref(1);
+    // let limit = 6;
 
-    onMounted(() => {
-      selectClassList(curPage);
-    });
+    // onMounted(() => {
+    //   selectClassList(curPage);
+    // });
 
-    //클래스 목록
-    const selectClassList = async (page = curPage.value) => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&_limit=${limit}`,
-        );
-        classArr.value = res.data;
-        totalCnt.value = res.headers['x-total-count'];
-        //console.log(res.headers);
-        //console.log(res.data);
-        //console.log(totalCnt);
-      } catch (err) {
-        console.log('selectClassList err : ', err);
-      }
+    // //클래스 목록
+    // const selectClassList = async (page = curPage.value) => {
+    //   try {
+    //     const res = await axios.get(
+    //       `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&_limit=${limit}`,
+    //     );
+    //     classArr.value = res.data;
+    //     totalCnt.value = res.headers['x-total-count'];
+    //     //console.log(res.headers);
+    //     //console.log(res.data);
+    //     //console.log(totalCnt);
+    //   } catch (err) {
+    //     console.log('selectClassList err : ', err);
+    //   }
+    // };
+
+    const getClassList = (classList) => {
+      console.log('classList : ', classList);
+      itemList.value = classList;
     };
 
     //클래스 상세보기
@@ -104,11 +115,12 @@ export default {
 
     return {
       moneyUnitStore,
+      itemList,
+      // classArr,
+      // totalCnt,
 
-      classArr,
-      totalCnt,
-
-      selectClassList,
+      // selectClassList,
+      getClassList,
       goDetail,
     };
   },
