@@ -8,7 +8,9 @@
           <div class="advance-search">
             <form action="#" class="inline-form">
               <div class="input-group">
-                <label for="searchClsName">클래스 이름</label>
+                <label for="searchClsName" class="fw-bold fs-3"
+                  >클래스 이름</label
+                >
                 <input
                   v-model="searchClsName"
                   name="searchClsName"
@@ -17,7 +19,7 @@
                 />
               </div>
               <div class="input-group">
-                <label for="searchSidoCd">시도</label>
+                <label for="searchSidoCd" class="fw-bold fs-3">시도</label>
                 <select
                   v-model="searchParams.searchSidoCd"
                   @change="setSigList(cls.sidoCd)"
@@ -38,7 +40,7 @@
                 </select>
               </div>
               <div class="input-group">
-                <label for="searchSigCd">시군구</label>
+                <label for="searchSigCd" class="fw-bold fs-3">시군구</label>
                 <select
                   v-model="searchParams.searchSigCd"
                   name="searchSigCd"

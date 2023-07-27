@@ -2643,3 +2643,7 @@ section.about-us {
 section.contact-us {
   background-color: #fcfcfd;
 }
+
+svg {
+  fill: rgb(102, 112, 133);
+}

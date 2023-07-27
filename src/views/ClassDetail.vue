@@ -1,13 +1,13 @@
 <template>
-  <Detailview />
+  <DetailView />
 </template>
 
 <script>
-import Detailview from '@/components/Detailview.vue';
+import DetailView from '@/components/DetailView.vue';
 
 export default {
   components: {
-    Detailview,
+    DetailView,
   },
   setup() {
     return {};
