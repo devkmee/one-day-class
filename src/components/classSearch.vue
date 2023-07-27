@@ -21,7 +21,7 @@
               <div class="input-group">
                 <label for="searchSidoCd" class="fw-bold fs-3">시도</label>
                 <select
-                  v-model="searchParams.searchSidoCd"
+                  v-model="searchSidoCd"
                   @change="setSigList(cls.sidoCd)"
                   name="searchSidoCd"
                   id="searchSidoCd"
@@ -42,7 +42,7 @@
               <div class="input-group">
                 <label for="searchSigCd" class="fw-bold fs-3">시군구</label>
                 <select
-                  v-model="searchParams.searchSigCd"
+                  v-model="searchSigCd"
                   name="searchSigCd"
                   id="searchSigCd"
                 >
@@ -59,7 +59,7 @@
               </div>
               <div class="input-group">
                 <button
-                  @click="searchClass()"
+                  @click="searchClassList()"
                   class="btn btn-primary"
                   type="button"
                 >
@@ -89,11 +89,12 @@ export default {
     const sidoList = ref([]);
     const sigList = ref([]);
 
-    let searchParams = ref({
-      searchClsName: '',
-      searchSidoCd: '11',
-      searchSigCd: '',
-    });
+    let searchClsName = ref('');
+    let searchSidoCd = ref('11');
+    let searchSigCd = ref('');
+    const classList = ref([]);
+    let curPage = 1;
+    const limit = 6;
 
     onMounted(() => {
       setSidoList();
@@ -125,23 +126,35 @@ export default {
           e.SIG_CD.startsWith(sidoCd),
         );
         //시군구 기본값 세팅
-        searchParams.value.searchSigCd = sigList.value[0].SIG_CD;
+        searchSigCd.value = sigList.value[0].SIG_CD;
       } catch (err) {
         console.log('setSigList err : ', err);
       }
     };
 
-    //클래스 검색
-    const searchClass = () => {};
+    //클래스 목록
+    const searchClassList = async (page = curPage) => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/class?&sidoCd_like=_${searchSidoCd.value}&sigCd_like=_${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`,
+        );
+        classList.value = res.data;
+        console.log('res.data : ', res.data);
+      } catch (err) {
+        console.log('searchClassList err : ', err);
+      }
+    };
 
     return {
       sidoList,
       sigList,
-      searchParams,
+      searchClsName,
+      searchSidoCd,
+      searchSigCd,
 
       setSidoList,
       setSigList,
-      searchClass,
+      searchClassList,
     };
   },
 };
