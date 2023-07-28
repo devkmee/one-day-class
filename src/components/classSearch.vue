@@ -71,8 +71,16 @@
           </div>
 
           <!--카테고리 검색 Div-->
-          <div class="cate-search">
-            <h1><span class="badge rounded-pill text-bg-primary">New</span></h1>
+          <div class="cate-search mt-5">
+            <span
+              v-for="cate in searchCateList"
+              :key="cate.cateCd"
+              @click="searchCate(cate.cateCd)"
+              :class="
+                searchCateCd == cate.cateCd ? 'cateBadgeSelected' : 'cateBadge'
+              "
+              >#{{ cate.cateNm }}</span
+            >
           </div>
         </div>
       </div>
@@ -95,14 +103,16 @@ export default {
     const classList = ref([]);
     const sidoList = ref([]);
     const sigList = ref([]);
-
+    const searchCateList = ref([]);
     let searchClsName = ref('');
     let searchSidoCd = ref('00');
     let searchSigCd = ref('');
+    let searchCateCd = ref(0);
 
     onMounted(() => {
       resetSearchParams();
       setSidoList();
+      setCateList();
       searchClassList();
     });
 
@@ -111,6 +121,7 @@ export default {
       searchClsName.value = '';
       searchSidoCd.value = '00';
       searchSigCd.value = '';
+      searchCateCd.value = 0;
     };
 
     //시도 목록세팅
@@ -145,16 +156,40 @@ export default {
       }
     };
 
+    //카테고리 목록세팅
+    const setCateList = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
+        );
+        searchCateList.value = res.data;
+      } catch (err) {
+        console.log('setCateList err : ', err);
+        searchCateList.value = 0;
+      }
+    };
+
+    //카테고리 클릭 검색
+    const searchCate = (cateCd) => {
+      searchCateCd.value = cateCd;
+      console.log('cateCd : ', cateCd, ', searchCateCd : ', searchCateCd.value);
+      searchClassList(1);
+    };
+
     //클래스 목록 검색
     const searchClassList = async (page = curPage) => {
-      let axiosUrl = '';
-      //전체 지역 검색용 url 세팅
-      if (searchSidoCd.value == '00') {
-        axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
-        //특정 지역 검색용 url 세팅
-      } else {
-        axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
+      let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
+
+      //지역 검색
+      if (searchSidoCd.value != '00') {
+        axiosUrl += `&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}`;
       }
+      //카테고리 검색
+      if (searchCateCd.value != 0) {
+        axiosUrl += `&cateCd_like=${searchCateCd.value}`;
+      }
+      console.log('searchCateCd : ', searchCateCd.value);
+
       try {
         const res = await axios.get(axiosUrl);
         classList.value = res.data;
@@ -168,17 +203,47 @@ export default {
       classList,
       sidoList,
       sigList,
+      searchCateList,
       searchClsName,
       searchSidoCd,
       searchSigCd,
+      searchCateCd,
 
       resetSearchParams,
       setSidoList,
       setSigList,
+      setCateList,
       searchClassList,
+      searchCate,
     };
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.cateBadge {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  margin: 10px;
+  padding: 6px 15px;
+  border-radius: 20px;
+  color: black;
+  background: #ffffff;
+  border: solid 2px #6330ff;
+  opacity: 0.7;
+}
+.cateBadgeSelected {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  margin: 10px;
+  padding: 6px 15px;
+  border-radius: 20px;
+  color: #ffffff;
+  background: #6330ff;
+  opacity: 0.7;
+}
+</style>
