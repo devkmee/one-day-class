@@ -1,5 +1,5 @@
 <template>
-  <classSearch @get-classList="getClassList()" />
+  <classSearch @get-classList="getClassList" />
   <section class="houses" id="houses">
     <div class="container">
       <div class="section-header">
@@ -74,35 +74,8 @@ export default {
     const moneyUnitStore = moneyUnit();
     const itemList = ref([]);
 
-    // const classArr = ref([]);
-
-    // let totalCnt = ref(0);
-    // let curPage = ref(1);
-    // let limit = 6;
-
-    // onMounted(() => {
-    //   selectClassList(curPage);
-    // });
-
-    // //클래스 목록
-    // const selectClassList = async (page = curPage.value) => {
-    //   try {
-    //     const res = await axios.get(
-    //       `http://localhost:5000/class?_sort=id&_order=desc&_page=${page}&_limit=${limit}`,
-    //     );
-    //     classArr.value = res.data;
-    //     totalCnt.value = res.headers['x-total-count'];
-    //     //console.log(res.headers);
-    //     //console.log(res.data);
-    //     //console.log(totalCnt);
-    //   } catch (err) {
-    //     console.log('selectClassList err : ', err);
-    //   }
-    // };
-
     const getClassList = (classList) => {
-      console.log('classList : ', classList);
-      itemList.value = classList;
+      itemList.value = classList.value;
     };
 
     //클래스 상세보기
@@ -116,10 +89,7 @@ export default {
     return {
       moneyUnitStore,
       itemList,
-      // classArr,
-      // totalCnt,
 
-      // selectClassList,
       getClassList,
       goDetail,
     };

@@ -6,13 +6,14 @@
         <div class="col-12">
           <!--메인 검색 DIv-->
           <div class="advance-search">
-            <form action="#" class="inline-form">
+            <form @submit.prevent class="inline-form">
               <div class="input-group">
                 <label for="searchClsName" class="fw-bold fs-3"
                   >클래스 이름</label
                 >
                 <input
                   v-model="searchClsName"
+                  @keyup.enter="searchClassList()"
                   name="searchClsName"
                   id="searchClsName"
                   type="text"
@@ -96,21 +97,30 @@ export default {
     const sigList = ref([]);
 
     let searchClsName = ref('');
-    let searchSidoCd = ref('11');
+    let searchSidoCd = ref('00');
     let searchSigCd = ref('');
 
     onMounted(() => {
+      resetSearchParams();
       setSidoList();
+      searchClassList();
     });
+
+    //검색어 초기화
+    const resetSearchParams = () => {
+      searchClsName.value = '';
+      searchSidoCd.value = '00';
+      searchSigCd.value = '';
+    };
 
     //시도 목록세팅
     const setSidoList = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/sidoCd?_sort=CTP_KOR_NM&_order=asc`,
+          `http://localhost:5000/sidoCd?_sort=CTPRVN_CD&_order=asc`,
         );
         sidoList.value = res.data;
-        setSigList('11');
+        setSigList('00');
       } catch (err) {
         console.log('setSidoList err : ', err);
       }
@@ -137,12 +147,17 @@ export default {
 
     //클래스 목록 검색
     const searchClassList = async (page = curPage) => {
+      let axiosUrl = '';
+      //전체 지역 검색용 url 세팅
+      if (searchSidoCd.value == '00') {
+        axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
+        //특정 지역 검색용 url 세팅
+      } else {
+        axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
+      }
       try {
-        const res = await axios.get(
-          `http://localhost:5000/class?&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`,
-        );
+        const res = await axios.get(axiosUrl);
         classList.value = res.data;
-        console.log('res.data : ', res.data);
       } catch (err) {
         console.log('searchClassList err : ', err);
       }
@@ -150,12 +165,14 @@ export default {
     };
 
     return {
+      classList,
       sidoList,
       sigList,
       searchClsName,
       searchSidoCd,
       searchSigCd,
 
+      resetSearchParams,
       setSidoList,
       setSigList,
       searchClassList,

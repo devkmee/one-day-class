@@ -182,6 +182,11 @@
   ],
   "sidoCd": [
     {
+      "CTPRVN_CD": "00",
+      "CTP_ENG_NM": "default",
+      "CTP_KOR_NM": "전체"
+    },
+    {
       "CTPRVN_CD": "42",
       "CTP_ENG_NM": "Gangwon-do",
       "CTP_KOR_NM": "강원도"
@@ -268,6 +273,11 @@
     }
   ],
   "sigCd": [
+    {
+      "SIG_CD": "00000",
+      "SIG_ENG_NM": "default",
+      "SIG_KOR_NM": "전체"
+    },
     {
       "SIG_CD": "42110",
       "SIG_ENG_NM": "Chuncheon-si",
