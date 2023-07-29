@@ -172,8 +172,8 @@ export default {
 
     //카테고리 클릭 검색
     const searchCate = (cateCd) => {
-      searchCateCd.value = cateCd;
-      console.log('cateCd : ', cateCd, ', searchCateCd : ', searchCateCd.value);
+      if (searchCateCd.value == cateCd) searchCateCd.value = 0;
+      else searchCateCd.value = cateCd;
       searchClassList(1);
     };
 
@@ -223,7 +223,7 @@ export default {
 
 <style scoped>
 .cateBadge {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0em;
@@ -234,9 +234,10 @@ export default {
   background: #ffffff;
   border: solid 2px #6330ff;
   opacity: 0.7;
+  cursor: pointer;
 }
 .cateBadgeSelected {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0em;
@@ -245,6 +246,8 @@ export default {
   border-radius: 20px;
   color: #ffffff;
   background: #6330ff;
+  border: solid 2px #6330ff;
   opacity: 0.7;
+  cursor: pointer;
 }
 </style>
