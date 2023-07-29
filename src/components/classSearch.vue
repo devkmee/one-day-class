@@ -103,6 +103,7 @@ export default {
     const classList = ref([]);
     const sidoList = ref([]);
     const sigList = ref([]);
+
     const searchCateList = ref([]);
     let searchClsName = ref('');
     let searchSidoCd = ref('00');
@@ -176,15 +177,15 @@ export default {
       searchClassList(1);
     };
 
-    //클래스 목록 검색
+    //클래스 목록조회
     const searchClassList = async (page = curPage) => {
       let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sort=id&_order=desc&_page=${page}&_limit=${limit}`;
 
-      //지역 검색
+      //지역 검색 url 세팅
       if (searchSidoCd.value != '00') {
         axiosUrl += `&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}`;
       }
-      //카테고리 검색
+      //카테고리 검색 url 세팅
       if (searchCateCd.value != 0) {
         axiosUrl += `&cateCd_like=${searchCateCd.value}`;
       }
