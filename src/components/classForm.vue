@@ -15,9 +15,8 @@
           <div class="flex-wrapper">
             <div class="flex-box-2 section-banner">
               <img
-                :src="`https://source.unsplash.com/random/300x250/?dessert`"
+                :src="`https://source.unsplash.com/random/300x250/?${cls.cateNm}`"
                 class="card-img-top"
-                alt="..."
               />
             </div>
 
@@ -216,7 +215,7 @@ export default {
         clsName: '',
         teacher: '김강사',
         cateCd: 1,
-        cateNm: '',
+        cateNm: 'dessert',
         status: '1',
         sidoCd: '11',
         sidoNm: '',

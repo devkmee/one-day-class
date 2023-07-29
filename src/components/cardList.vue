@@ -21,10 +21,13 @@
               <div class="house-card">
                 <div class="house__thumb">
                   <img
-                    :src="`https://source.unsplash.com/random/${item.id}
-                    `"
+                    v-if="item.id != ''"
+                    :src="getImageUrl(item.id)"
                     class="card-img-top"
-                    alt="..."
+                  /><img
+                    v-else
+                    :src="`https://source.unsplash.com/random/?${item.cateNm}/${item.id}`"
+                    class="card-img-top"
                   />
                   <div class="house__meta">
                     <a href="#">{{ item.cateNm }}</a>
@@ -78,6 +81,15 @@ export default {
       itemList.value = classList.value;
     };
 
+    //이미지 url 생성
+    const getImageUrl = (id) => {
+      const imgUrl = new URL(`/src/assets/images/${id}.jpg`, import.meta.url)
+        .href;
+      //console.log('id : ', id);
+      //console.log('imgUrl : ', imgUrl);
+      return imgUrl;
+    };
+
     //클래스 상세보기
     const goDetail = (classId) => {
       router.push({
@@ -91,6 +103,7 @@ export default {
       itemList,
 
       getClassList,
+      getImageUrl,
       goDetail,
     };
   },

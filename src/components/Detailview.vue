@@ -7,7 +7,12 @@
           <div class="col-md-5">
             <div class="section-banner">
               <img
-                :src="`https://source.unsplash.com/random/300x250/?dessert`"
+                v-if="cls.id != ''"
+                :src="getImageUrl()"
+                class="card-img-top"
+              /><img
+                v-else
+                :src="`https://source.unsplash.com/random/300x250/?${cls.cateNm}`"
                 class="card-img-top"
                 alt="..."
               />
@@ -109,10 +114,21 @@ export default {
           ...res.data,
         };
         cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
-        console.log(res);
+        //console.log(res);
       } catch (err) {
         console.log('selectClsView err : ', err);
       }
+    };
+
+    //이미지 url 생성
+    const getImageUrl = () => {
+      const imgUrl = new URL(
+        `/src/assets/images/${cls.value.id}.jpg`,
+        import.meta.url,
+      ).href;
+      //console.log('cls.value.id : ', cls.value.id);
+      //console.log('imgUrl : ', imgUrl);
+      return imgUrl;
     };
 
     //수정화면 이동
@@ -149,6 +165,7 @@ export default {
       goUpdate,
       goClassList,
       deleteClass,
+      getImageUrl,
     };
   },
 };
