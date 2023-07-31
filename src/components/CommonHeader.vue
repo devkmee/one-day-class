@@ -28,4 +28,11 @@
   text-align: center;
   line-height: 2;
 }
+.links a:hover {
+  flex: 1;
+  font-size: 20px;
+  text-align: center;
+  line-height: 2;
+  background-color: white;
+}
 </style>
