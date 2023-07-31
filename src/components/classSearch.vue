@@ -179,7 +179,7 @@ export default {
 
     //클래스 목록조회
     const searchClassList = async (page = curPage) => {
-      let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&sort=id&order=asc&_page=${page}&_limit=${limit}`;
+      let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&_sort=id&_order=desc&_page=${page}&_limit=${limit}`;
 
       //지역 검색 url 세팅
       if (searchSidoCd.value != '00') {

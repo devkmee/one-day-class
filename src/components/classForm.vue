@@ -14,10 +14,11 @@
         <form @submit.prevent="saveClass">
           <div class="flex-wrapper">
             <div class="flex-box-2 section-banner">
-              <img
-                :src="`https://source.unsplash.com/random/300x250/?${cls.cateNm}`"
+              <!-- <img
+                :src="`https://source.unsplash.com/random/300x250/?dessert`"
                 class="card-img-top"
-              />
+              /> -->
+              <img src="@/assets/images/24.jpg" class="card-img-top" />
             </div>
 
             <!-- <div class="flex-wrapper"> -->
@@ -215,7 +216,7 @@ export default {
         clsName: '',
         teacher: '김강사',
         cateCd: 1,
-        cateNm: 'dessert',
+        cateNm: '',
         status: '1',
         sidoCd: '11',
         sidoNm: '',
@@ -422,6 +423,9 @@ export default {
   flex: 50% 0 0;
   width: calc(100% / 2);
   padding: 0px 30px;
+}
+.flex-box-2 > img {
+  margin-top: 40px;
 }
 .flex-box-3 {
   flex: 33% 0 0;
