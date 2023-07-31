@@ -18,7 +18,12 @@
                 :src="`https://source.unsplash.com/random/300x250/?dessert`"
                 class="card-img-top"
               /> -->
-              <img src="@/assets/images/26.jpg" class="card-img-top" />
+              <img
+                v-if="updateFlag"
+                :src="getImageUrl()"
+                class="card-img-top"
+              />
+              <img v-else src="@/assets/images/26.jpg" class="card-img-top" />
             </div>
 
             <!-- <div class="flex-wrapper"> -->
@@ -247,6 +252,17 @@ export default {
       }
     };
 
+    //수정 시 이미지 url 생성
+    const getImageUrl = () => {
+      const imgUrl = new URL(
+        `/src/assets/images/${cls.value.id}.jpg`,
+        import.meta.url,
+      ).href;
+      //console.log('cls.value.id : ', cls.value.id);
+      //console.log('imgUrl : ', imgUrl);
+      return imgUrl;
+    };
+
     //카테고리 목록세팅
     const setCateList = async () => {
       try {
@@ -409,6 +425,7 @@ export default {
       setSidoList,
       setSigList,
       setPrice,
+      getImageUrl,
     };
   },
 };
