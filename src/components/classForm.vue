@@ -18,7 +18,7 @@
                 :src="`https://source.unsplash.com/random/300x250/?dessert`"
                 class="card-img-top"
               /> -->
-              <img src="@/assets/images/24.jpg" class="card-img-top" />
+              <img src="@/assets/images/26.jpg" class="card-img-top" />
             </div>
 
             <!-- <div class="flex-wrapper"> -->
