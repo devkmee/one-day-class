@@ -172,262 +172,228 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 import { commonStore } from '@/stores/commonCodeStore';
 
-export default {
-  setup() {
-    const router = useRouter();
-    const route = useRoute();
-    const moneyUnitStore = moneyUnit();
-    const commonCodeStore = commonStore();
+const router = useRouter();
+const route = useRoute();
+const moneyUnitStore = moneyUnit();
+const commonCodeStore = commonStore();
 
-    //false=등록, true=수정
-    const updateFlag = route.name === 'ClassCreate' ? false : true;
+//false=등록, true=수정
+const updateFlag = route.name === 'ClassCreate' ? false : true;
 
-    const cateList = ref([]);
-    const sidoList = ref([]);
-    const sigList = ref([]);
+const cateList = ref([]);
+const sidoList = ref([]);
+const sigList = ref([]);
 
-    //클래스 등록 시 초기값
-    const cls = ref({});
+//클래스 등록 시 초기값
+const cls = ref({});
 
-    // onBeforeMount(() => {
-    //   cateList.value = commonCodeStore.getCategory();
-    //   console.log('? ', cateList.value);
-    // });
+// onBeforeMount(() => {
+//   cateList.value = commonCodeStore.getCategory();
+//   console.log('? ', cateList.value);
+// });
 
-    onMounted(() => {
-      setSidoList();
-      setCateList();
-      initClassEdit();
-    });
+onMounted(() => {
+  setSidoList();
+  setCateList();
+  initClassEdit();
+});
 
-    const initClassEdit = () => {
-      //등록
-      if (!updateFlag) resetCls();
-      //수정
-      else getCls();
+const initClassEdit = () => {
+  //등록
+  if (!updateFlag) resetCls();
+  //수정
+  else getCls();
+};
+
+//cls 초기화
+const resetCls = () => {
+  cls.value = {
+    clsImg: 0,
+    clsName: '',
+    teacher: '김강사',
+    cateCd: 1,
+    cateNm: '',
+    status: '1',
+    sidoCd: '11',
+    sidoNm: '',
+    sigCd: '',
+    sigNm: '',
+    price: '0',
+    studentMax: '5',
+    time: '1',
+    expln: '',
+  };
+};
+
+//수정 시 데이터 조회
+const getCls = async () => {
+  const paramClsId = route.params.id;
+
+  try {
+    const res = await axios.get(`http://localhost:5000/class/${paramClsId}`);
+    cls.value = {
+      ...res.data,
     };
+    cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
+    //console.log(res);
+  } catch (err) {
+    console.log('getCls err : ', err);
+  }
+};
 
-    //cls 초기화
-    const resetCls = () => {
-      cls.value = {
-        clsImg: 0,
-        clsName: '',
-        teacher: '김강사',
-        cateCd: 1,
-        cateNm: '',
-        status: '1',
-        sidoCd: '11',
-        sidoNm: '',
-        sigCd: '',
-        sigNm: '',
-        price: '0',
-        studentMax: '5',
-        time: '1',
-        expln: '',
-      };
-    };
+//수정 시 이미지 url 생성
+const getImageUrl = () => {
+  const imgUrl = new URL(
+    `/src/assets/images/${cls.value.id}.jpg`,
+    import.meta.url,
+  ).href;
+  //console.log('cls.value.id : ', cls.value.id);
+  //console.log('imgUrl : ', imgUrl);
+  return imgUrl;
+};
 
-    //수정 시 데이터 조회
-    const getCls = async () => {
-      const paramClsId = route.params.id;
+//카테고리 목록세팅
+const setCateList = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
+    );
+    cateList.value = res.data;
+  } catch (err) {
+    console.log('setCateList err : ', err);
+    cateList.value = 0;
+  }
+};
 
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/class/${paramClsId}`,
-        );
-        cls.value = {
-          ...res.data,
-        };
-        cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
-        //console.log(res);
-      } catch (err) {
-        console.log('getCls err : ', err);
-      }
-    };
+//시도 목록세팅
+const setSidoList = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/sidoCd?_sort=CTP_KOR_NM&_order=asc`,
+    );
+    sidoList.value = res.data;
+    setSigList('11');
+  } catch (err) {
+    console.log('setSidoList err : ', err);
+  }
+};
 
-    //수정 시 이미지 url 생성
-    const getImageUrl = () => {
-      const imgUrl = new URL(
-        `/src/assets/images/${cls.value.id}.jpg`,
-        import.meta.url,
-      ).href;
-      //console.log('cls.value.id : ', cls.value.id);
-      //console.log('imgUrl : ', imgUrl);
-      return imgUrl;
-    };
+//시군구 목록세팅
+const setSigList = async (sidoCd) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
+    );
 
-    //카테고리 목록세팅
-    const setCateList = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
-        );
-        cateList.value = res.data;
-      } catch (err) {
-        console.log('setCateList err : ', err);
-        cateList.value = 0;
-      }
-    };
+    //시도에 해당하는 시군구 필터링
+    sigList.value = res.data;
+    sigList.value = sigList.value.filter((e) => e.SIG_CD.startsWith(sidoCd));
+    //시군구 기본값 세팅
+    cls.value.sigCd = sigList.value[0].SIG_CD;
+  } catch (err) {
+    console.log('setSigList err : ', err);
+  }
+};
 
-    //시도 목록세팅
-    const setSidoList = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/sidoCd?_sort=CTP_KOR_NM&_order=asc`,
-        );
-        sidoList.value = res.data;
-        setSigList('11');
-      } catch (err) {
-        console.log('setSidoList err : ', err);
-      }
-    };
+//가격 세팅
+const setPrice = () => {
+  cls.value.price = moneyUnitStore.deleteChar(cls.value.price);
+  cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
+};
 
-    //시군구 목록세팅
-    const setSigList = async (sidoCd) => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
-        );
+//jsonServer저장용 카테고리 코드-이름매칭
+const mappingCate = () => {
+  cls.value.cateNm = cateList.value.find(
+    (e) => e.cateCd === cls.value.cateCd,
+  ).cateNm;
+};
 
-        //시도에 해당하는 시군구 필터링
-        sigList.value = res.data;
-        sigList.value = sigList.value.filter((e) =>
-          e.SIG_CD.startsWith(sidoCd),
-        );
-        //시군구 기본값 세팅
-        cls.value.sigCd = sigList.value[0].SIG_CD;
-      } catch (err) {
-        console.log('setSigList err : ', err);
-      }
-    };
+//jsonServer저장용 시도 코드-이름매칭
+const mappingSido = () => {
+  cls.value.sidoNm = sidoList.value.find(
+    (e) => e.CTPRVN_CD === cls.value.sidoCd,
+  ).CTP_KOR_NM;
+};
 
-    //가격 세팅
-    const setPrice = () => {
-      cls.value.price = moneyUnitStore.deleteChar(cls.value.price);
-      cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
-    };
+//jsonServer저장용 시군구 코드-이름매칭
+const mappingSig = () => {
+  cls.value.sigNm = sigList.value.find(
+    (e) => e.SIG_CD === cls.value.sigCd,
+  ).SIG_KOR_NM;
+};
 
-    //jsonServer저장용 카테고리 코드-이름매칭
-    const mappingCate = () => {
-      cls.value.cateNm = cateList.value.find(
-        (e) => e.cateCd === cls.value.cateCd,
-      ).cateNm;
-    };
+//jsonServer저장용 공통 코드-이름매칭
+const mappingCdNm = (paramList, paramCode, paraNm) => {
+  console.log('paramCode : ' + paramCode + ', paraNm: ' + paraNm);
 
-    //jsonServer저장용 시도 코드-이름매칭
-    const mappingSido = () => {
-      cls.value.sidoNm = sidoList.value.find(
-        (e) => e.CTPRVN_CD === cls.value.sidoCd,
-      ).CTP_KOR_NM;
-    };
+  cls.value.cateNm = cateList.value.find(
+    (e) => e.cateCd === cls.value.cateCd,
+  ).cateNm;
+};
 
-    //jsonServer저장용 시군구 코드-이름매칭
-    const mappingSig = () => {
-      cls.value.sigNm = sigList.value.find(
-        (e) => e.SIG_CD === cls.value.sigCd,
-      ).SIG_KOR_NM;
-    };
+// const validationCheck = () => {
+//   const valiChk = false;
 
-    //jsonServer저장용 공통 코드-이름매칭
-    const mappingCdNm = (paramList, paramCode, paraNm) => {
-      console.log('paramCode : ' + paramCode + ', paraNm: ' + paraNm);
+//   console.log('cls : ', cls);
+//   return valiChk;
+// };
 
-      cls.value.cateNm = cateList.value.find(
-        (e) => e.cateCd === cls.value.cateCd,
-      ).cateNm;
-    };
+//목록으로 이동
+const goClassList = () => {
+  router.push({
+    path: '/classList',
+  });
+};
 
-    // const validationCheck = () => {
-    //   const valiChk = false;
+//클래스 저장
+const saveClass = async () => {
+  //validationCheck();
+  mappingCate();
+  mappingSido();
+  mappingSig();
 
-    //   console.log('cls : ', cls);
-    //   return valiChk;
-    // };
+  const data = {
+    clsImg: cls.value.clsImg,
+    clsName: cls.value.clsName,
+    teacher: cls.value.teacher,
+    cateCd: cls.value.cateCd,
+    cateNm: cls.value.cateNm,
+    status: cls.value.status,
+    sidoCd: cls.value.sidoCd,
+    sidoNm: cls.value.sidoNm,
+    sigCd: cls.value.sigCd,
+    sigNm: cls.value.sigNm,
+    price: cls.value.price,
+    studentMax: cls.value.studentMax,
+    time: cls.value.time,
+    expln: cls.value.expln,
+  };
 
-    //목록으로 이동
-    const goClassList = () => {
-      router.push({
-        path: '/classList',
-      });
-    };
+  //등록
+  if (!updateFlag) {
+    try {
+      await axios.post('http://localhost:5000/class', data);
+    } catch (err) {
+      console.log('등록 err : ', err);
+    }
 
-    //클래스 저장
-    const saveClass = async () => {
-      //validationCheck();
-      mappingCate();
-      mappingSido();
-      mappingSig();
-
-      const data = {
-        clsImg: cls.value.clsImg,
-        clsName: cls.value.clsName,
-        teacher: cls.value.teacher,
-        cateCd: cls.value.cateCd,
-        cateNm: cls.value.cateNm,
-        status: cls.value.status,
-        sidoCd: cls.value.sidoCd,
-        sidoNm: cls.value.sidoNm,
-        sigCd: cls.value.sigCd,
-        sigNm: cls.value.sigNm,
-        price: cls.value.price,
-        studentMax: cls.value.studentMax,
-        time: cls.value.time,
-        expln: cls.value.expln,
-      };
-
-      //등록
-      if (!updateFlag) {
-        try {
-          await axios.post('http://localhost:5000/class', data);
-        } catch (err) {
-          console.log('등록 err : ', err);
-        }
-
-        //수정
-      } else {
-        const paramClsId = route.params.id;
-        try {
-          await axios.put('http://localhost:5000/class/' + paramClsId, data);
-        } catch (err) {
-          console.log('수정 err : ', err);
-        }
-      }
-      goClassList();
-    };
-    return {
-      updateFlag,
-      cateList,
-      sidoList,
-      sigList,
-      cls,
-
-      moneyUnitStore,
-      commonCodeStore,
-
-      //validationCheck,
-      initClassEdit,
-      resetCls,
-      getCls,
-      goClassList,
-      mappingCate,
-      mappingSido,
-      mappingSig,
-      mappingCdNm,
-      saveClass,
-      setCateList,
-      setSidoList,
-      setSigList,
-      setPrice,
-      getImageUrl,
-    };
-  },
+    //수정
+  } else {
+    const paramClsId = route.params.id;
+    try {
+      await axios.put('http://localhost:5000/class/' + paramClsId, data);
+    } catch (err) {
+      console.log('수정 err : ', err);
+    }
+  }
+  goClassList();
 };
 </script>
 

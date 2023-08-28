@@ -87,87 +87,73 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { ref, onBeforeMount } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 import router from '@/router';
 
-export default {
-  setup() {
-    const route = useRoute();
-    const moneyUnitStore = moneyUnit();
+const route = useRoute();
+const moneyUnitStore = moneyUnit();
 
-    const clsId = route.params.id;
-    const cls = ref({});
+const clsId = route.params.id;
+const cls = ref({});
 
-    onBeforeMount(() => {
-      selectClsView();
-    });
+onBeforeMount(() => {
+  selectClsView();
+});
 
-    //상세조회
-    const selectClsView = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/class/${clsId}`);
-        cls.value = {
-          ...res.data,
-        };
-        cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
-        //console.log(res);
-      } catch (err) {
-        console.log('selectClsView err : ', err);
-      }
+//상세조회
+const selectClsView = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/class/${clsId}`);
+    cls.value = {
+      ...res.data,
     };
+    cls.value.price = moneyUnitStore.numberUnit(cls.value.price);
+    //console.log(res);
+  } catch (err) {
+    console.log('selectClsView err : ', err);
+  }
+};
 
-    //이미지 url 생성
-    const getImageUrl = () => {
-      const imgUrl = new URL(
-        `/src/assets/images/${cls.value.id}.jpg`,
-        import.meta.url,
-      ).href;
-      //console.log('cls.value.id : ', cls.value.id);
-      //console.log('imgUrl : ', imgUrl);
-      return imgUrl;
-    };
+//이미지 url 생성
+const getImageUrl = () => {
+  const imgUrl = new URL(
+    `/src/assets/images/${cls.value.id}.jpg`,
+    import.meta.url,
+  ).href;
+  //console.log('cls.value.id : ', cls.value.id);
+  //console.log('imgUrl : ', imgUrl);
+  return imgUrl;
+};
 
-    //수정화면 이동
-    const goUpdate = () => {
-      router.push({
-        name: 'ClassUpdate',
-        params: { id: clsId },
-      });
-    };
+//수정화면 이동
+const goUpdate = () => {
+  router.push({
+    name: 'ClassUpdate',
+    params: { id: clsId },
+  });
+};
 
-    //목록으로 이동
-    const goClassList = () => {
-      router.push({
-        path: '/classList',
-      });
-    };
+//목록으로 이동
+const goClassList = () => {
+  router.push({
+    path: '/classList',
+  });
+};
 
-    //클래스 삭제
-    const deleteClass = async () => {
-      console.log('clsId : ', clsId);
-      try {
-        await axios.delete(`http://localhost:5000/class/${clsId}`);
-        alert('클래스가 삭제되었습니다');
-        goClassList();
-      } catch (err) {
-        console.log('deleteClass err', err);
-      }
-    };
-
-    return {
-      clsId,
-      cls,
-
-      goUpdate,
-      goClassList,
-      deleteClass,
-      getImageUrl,
-    };
-  },
+//클래스 삭제
+const deleteClass = async () => {
+  console.log('clsId : ', clsId);
+  try {
+    await axios.delete(`http://localhost:5000/class/${clsId}`);
+    alert('클래스가 삭제되었습니다');
+    goClassList();
+  } catch (err) {
+    console.log('deleteClass err', err);
+  }
 };
 </script>
 

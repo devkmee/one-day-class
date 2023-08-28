@@ -2,24 +2,16 @@
   <classForm />
 </template>
 
-<script>
-import { reactive, toRefs } from 'vue';
+<script setup>
 import classForm from '@/components/classForm.vue';
 
-export default {
-  components: {
-    classForm,
-  },
-  setup() {
-    const state = reactive({
-      count: 0,
-    });
+// const state = reactive({
+//   count: 0,
+// });
 
-    return {
-      ...toRefs(state),
-    };
-  },
-};
+// return {
+//   ...toRefs(state),
+// };
 </script>
 
 <style lang="scss" scoped></style>

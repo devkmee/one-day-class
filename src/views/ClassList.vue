@@ -4,27 +4,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import cardList from '@/components/cardList.vue';
 import { useRouter } from 'vue-router';
 
-export default {
-  components: {
-    cardList,
-  },
-  setup() {
-    const router = useRouter();
+const router = useRouter();
 
-    const goclassForm = () => {
-      router.push({
-        name: 'ClassForm',
-      });
-    };
-
-    return {
-      goclassForm,
-    };
-  },
+const goclassForm = () => {
+  router.push({
+    name: 'ClassForm',
+  });
 };
 </script>
 <style></style>

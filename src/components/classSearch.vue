@@ -89,138 +89,112 @@
   <!-- Advance Search option end -->
 </template>
 
-<script>
-import { ref, onMounted, getCurrentInstance } from 'vue';
+<script setup>
+import { ref, onMounted, defineEmits } from 'vue';
 import axios from 'axios';
 
-export default {
-  emits: ['get-classList'],
-  setup() {
-    const { emit } = getCurrentInstance();
+const emit = defineEmits(['get-classList']);
+//emits: ['get-classList'],
+//const { emit } = getCurrentInstance();
 
-    let curPage = 1;
-    const limit = 6;
-    const classList = ref([]);
-    const sidoList = ref([]);
-    const sigList = ref([]);
+let curPage = 1;
+const limit = 6;
+const classList = ref([]);
+const sidoList = ref([]);
+const sigList = ref([]);
 
-    const searchCateList = ref([]);
-    let searchClsName = ref('');
-    let searchSidoCd = ref('00');
-    let searchSigCd = ref('');
-    let searchCateCd = ref(0);
+const searchCateList = ref([]);
+let searchClsName = ref('');
+let searchSidoCd = ref('00');
+let searchSigCd = ref('');
+let searchCateCd = ref(0);
 
-    onMounted(() => {
-      resetSearchParams();
-      setSidoList();
-      setCateList();
-      searchClassList();
-    });
+onMounted(() => {
+  resetSearchParams();
+  setSidoList();
+  setCateList();
+  searchClassList();
+});
 
-    //검색어 초기화
-    const resetSearchParams = () => {
-      searchClsName.value = '';
-      searchSidoCd.value = '00';
-      searchSigCd.value = '';
-      searchCateCd.value = 0;
-    };
+//검색어 초기화
+const resetSearchParams = () => {
+  searchClsName.value = '';
+  searchSidoCd.value = '00';
+  searchSigCd.value = '';
+  searchCateCd.value = 0;
+};
 
-    //시도 목록세팅
-    const setSidoList = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/sidoCd?_sort=CTPRVN_CD&_order=asc`,
-        );
-        sidoList.value = res.data;
-        setSigList('00');
-      } catch (err) {
-        console.log('setSidoList err : ', err);
-      }
-    };
+//시도 목록세팅
+const setSidoList = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/sidoCd?_sort=CTPRVN_CD&_order=asc`,
+    );
+    sidoList.value = res.data;
+    setSigList('00');
+  } catch (err) {
+    console.log('setSidoList err : ', err);
+  }
+};
 
-    //브랜치테스트
-    //브랜치이
-    //브랜치 되돌리기!
-    //시군구 목록세팅
-    const setSigList = async (sidoCd) => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
-        );
+//시군구 목록세팅
+const setSigList = async (sidoCd) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/sigCd?&SIG_CD_like=${sidoCd}&_sort=SIG_KOR_NM&_order=asc`,
+    );
 
-        //시도에 해당하는 시군구 필터링
-        sigList.value = res.data;
-        sigList.value = sigList.value.filter((e) =>
-          e.SIG_CD.startsWith(sidoCd),
-        );
-        //시군구 기본값 세팅
-        searchSigCd.value = sigList.value[0].SIG_CD;
-      } catch (err) {
-        console.log('setSigList err : ', err);
-      }
-    };
+    //시도에 해당하는 시군구 필터링
+    sigList.value = res.data;
+    sigList.value = sigList.value.filter((e) => e.SIG_CD.startsWith(sidoCd));
+    //시군구 기본값 세팅
+    searchSigCd.value = sigList.value[0].SIG_CD;
+  } catch (err) {
+    console.log('setSigList err : ', err);
+  }
+};
 
-    //카테고리 목록세팅
-    const setCateList = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
-        );
-        searchCateList.value = res.data;
-      } catch (err) {
-        console.log('setCateList err : ', err);
-        searchCateList.value = 0;
-      }
-    };
+//카테고리 목록세팅
+const setCateList = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/categoryCode?_sort=cateCd&_order=asc`,
+    );
+    searchCateList.value = res.data;
+  } catch (err) {
+    console.log('setCateList err : ', err);
+    searchCateList.value = 0;
+  }
+};
 
-    //카테고리 클릭 검색
-    const searchCate = (cateCd) => {
-      if (searchCateCd.value == cateCd) searchCateCd.value = 0;
-      else searchCateCd.value = cateCd;
-      searchClassList(1);
-    };
+//카테고리 클릭 검색
+const searchCate = (cateCd) => {
+  if (searchCateCd.value == cateCd) searchCateCd.value = 0;
+  else searchCateCd.value = cateCd;
+  searchClassList(1);
+};
 
-    //클래스 목록조회
-    const searchClassList = async (page = curPage) => {
-      let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&_sort=id&_order=desc&_page=${page}&_limit=${limit}`;
+//클래스 목록조회
+const searchClassList = async (page = curPage) => {
+  let axiosUrl = `http://localhost:5000/class?&clsName_like=${searchClsName.value}&_sort=id&_order=desc&_page=${page}&_limit=${limit}`;
 
-      //지역 검색 url 세팅
-      if (searchSidoCd.value != '00') {
-        axiosUrl += `&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}`;
-      }
-      //카테고리 검색 url 세팅
-      if (searchCateCd.value != 0) {
-        axiosUrl += `&cateCd_like=${searchCateCd.value}`;
-      }
-      console.log('searchCateCd : ', searchCateCd.value);
+  //지역 검색 url 세팅
+  if (searchSidoCd.value != '00') {
+    axiosUrl += `&sidoCd_like=${searchSidoCd.value}&sigCd_like=${searchSigCd.value}`;
+  }
+  //카테고리 검색 url 세팅
+  if (searchCateCd.value != 0) {
+    axiosUrl += `&cateCd_like=${searchCateCd.value}`;
+  }
+  console.log('searchCateCd : ', searchCateCd.value);
 
-      try {
-        const res = await axios.get(axiosUrl);
-        classList.value = res.data;
-      } catch (err) {
-        console.log('searchClassList err : ', err);
-      }
-      emit('get-classList', classList);
-    };
-
-    return {
-      classList,
-      sidoList,
-      sigList,
-      searchCateList,
-      searchClsName,
-      searchSidoCd,
-      searchSigCd,
-      searchCateCd,
-
-      resetSearchParams,
-      setSidoList,
-      setSigList,
-      setCateList,
-      searchClassList,
-      searchCate,
-    };
-  },
+  try {
+    const res = await axios.get(axiosUrl);
+    classList.value = res.data;
+  } catch (err) {
+    console.log('searchClassList err : ', err);
+  }
+  emit('get-classList', classList);
 };
 </script>
 

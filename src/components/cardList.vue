@@ -62,51 +62,34 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import router from '@/router';
 //import axios from 'axios';
 import classSearch from '@/components/classSearch.vue';
 import { ref } from 'vue';
 import { moneyUnit } from '@/stores/moneyUnitStore';
 
-export default {
-  components: {
-    classSearch,
-  },
-  setup() {
-    const moneyUnitStore = moneyUnit();
-    const itemList = ref([]);
+const moneyUnitStore = moneyUnit();
+const itemList = ref([]);
 
-    const getClassList = (classList) => {
-      itemList.value = classList.value;
-    };
+const getClassList = (classList) => {
+  itemList.value = classList.value;
+};
 
-    //이미지 url 생성
-    const getImageUrl = (id) => {
-      const imgUrl = new URL(`/src/assets/images/${id}.jpg`, import.meta.url)
-        .href;
-      //console.log('id : ', id);
-      //console.log('imgUrl : ', imgUrl);
-      return imgUrl;
-    };
+//이미지 url 생성
+const getImageUrl = (id) => {
+  const imgUrl = new URL(`/src/assets/images/${id}.jpg`, import.meta.url).href;
+  //console.log('id : ', id);
+  //console.log('imgUrl : ', imgUrl);
+  return imgUrl;
+};
 
-    //클래스 상세보기
-    const goDetail = (classId) => {
-      router.push({
-        name: 'ClassDetail',
-        params: { id: classId },
-      });
-    };
-
-    return {
-      moneyUnitStore,
-      itemList,
-
-      getClassList,
-      getImageUrl,
-      goDetail,
-    };
-  },
+//클래스 상세보기
+const goDetail = (classId) => {
+  router.push({
+    name: 'ClassDetail',
+    params: { id: classId },
+  });
 };
 </script>
 
